@@ -1,0 +1,12 @@
+[Unit]
+Description=Verify and repair public WHOXOS UI permissions
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/node /usr/local/libexec/overview-labs/public-ui-permissions.mjs /var/lib/whox/.whox/cli/current/node_modules/@whoxos/server/ui-dist
+ExecStart=/usr/sbin/runuser -u whox -- /usr/bin/test -r /var/lib/whox/.whox/cli/current/node_modules/@whoxos/server/ui-dist/index.html
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/whox/.whox/cli/current/node_modules/@whoxos/server/ui-dist
+PrivateTmp=yes

@@ -1,0 +1,23 @@
+[Unit]
+Description=Overview Labs primary file storage (Backblaze and PostgreSQL)
+After=network-online.target WHOXOS-SQL@18-main.service
+Wants=network-online.target
+[Service]
+Type=simple
+Group=whox
+ExecStart=/usr/bin/node /usr/local/libexec/overview-file-store/store.mjs
+Restart=on-failure
+RestartSec=5
+RuntimeDirectory=overview-file-store
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=yes
+UMask=0077
+CPUQuota=100%
+MemoryMax=768M
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/run/overview-file-store /var/lib/overview-file-store
+[Install]
+WantedBy=multi-user.target

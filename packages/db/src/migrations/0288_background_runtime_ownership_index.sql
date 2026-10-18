@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "heartbeat_runs_effective_issue_latest_idx" ON "heartbeat_runs" USING btree ("company_id",coalesce("native_issue_id"::text, "context_snapshot" ->> 'issueId'),"created_at" DESC NULLS LAST,"id" DESC NULLS LAST);

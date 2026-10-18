@@ -1,0 +1,8 @@
+[Unit]
+Description=Allocate new Overview Labs files to Backblaze every five minutes
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=5min
+Unit=overview-files-sync.service
+[Install]
+WantedBy=timers.target

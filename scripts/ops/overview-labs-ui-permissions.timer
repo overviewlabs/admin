@@ -1,0 +1,11 @@
+[Unit]
+Description=Detect WHOXOS UI permission drift
+
+[Timer]
+OnBootSec=15s
+OnUnitActiveSec=15s
+AccuracySec=1s
+Unit=overview-labs-ui-permissions.service
+
+[Install]
+WantedBy=timers.target

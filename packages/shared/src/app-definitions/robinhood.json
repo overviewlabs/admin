@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "slug": "robinhood",
+  "name": "Robinhood",
+  "description": "Connect your Robinhood Agentic account for market research, portfolio management, and trading.",
+  "categories": [
+    "commerce"
+  ],
+  "featured": false,
+  "branding": {
+    "logoUrl": "/brands/apps/robinhood.png"
+  },
+  "urlPatterns": [
+    "https://agent.robinhood.com/mcp/trading"
+  ],
+  "methods": [
+    {
+      "key": "mcp-oauth",
+      "transport": "mcp_remote",
+      "auth": "oauth",
+      "ownershipModes": [
+        "customer",
+        "dcr"
+      ],
+      "whenToUse": "Use the provider-hosted connection for the quickest setup.",
+      "defaults": {
+        "serverUrl": "https://agent.robinhood.com/mcp/trading",
+        "scopesHint": [
+          "internal"
+        ]
+      },
+      "guidanceMd": "Sign in to Robinhood and complete Agentic account onboarding. Reads can include your other Robinhood accounts; trades are limited by Robinhood to the dedicated Agentic account. Choose which agents and actions may use this connection in Permissions. Connecting does not place any orders.",
+      "riskTier": "S4",
+      "label": "Sign in with Robinhood",
+      "grantKinds": [
+        "user"
+      ],
+      "consoleLinks": {
+        "docs": "https://robinhood.com/us/en/support/articles/agentic-trading-overview/"
+      },
+      "warnings": [
+        "Sign in on a desktop browser and complete Robinhood Agentic account onboarding. Trading is limited to the dedicated Agentic account."
+      ]
+    }
+  ],
+  "redirectConstraints": "https-or-loopback-http",
+  "docsUrl": "https://robinhood.com/us/en/support/articles/agentic-trading-overview/"
+}

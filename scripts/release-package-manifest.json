@@ -1,0 +1,167 @@
+[
+  {
+    "dir": "packages/adapter-utils",
+    "name": "@whoxos/adapter-utils",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/claude-local",
+    "name": "@whoxos/adapter-claude-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/codex-local",
+    "name": "@whoxos/adapter-codex-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/cursor-cloud",
+    "name": "@whoxos/adapter-cursor-cloud",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/cursor-local",
+    "name": "@whoxos/adapter-cursor-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/gemini-local",
+    "name": "@whoxos/adapter-gemini-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/grok-local",
+    "name": "@whoxos/adapter-grok-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/hermes",
+    "name": "@whoxos/hermes-whoxos-adapter",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/hermes-gateway",
+    "name": "@whoxos/adapter-hermes-gateway",
+    "publishFromCi": false
+  },
+  {
+    "dir": "packages/adapters/kimi-local",
+    "name": "@whoxos/adapter-kimi-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/opencode-local",
+    "name": "@whoxos/adapter-opencode-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/pi-local",
+    "name": "@whoxos/adapter-pi-local",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/adapters/openclaw-gateway",
+    "name": "@whoxos/adapter-openclaw-gateway",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/shared",
+    "name": "@whoxos/shared",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/skills-catalog",
+    "name": "@whoxos/skills-catalog",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/teams-catalog",
+    "name": "@whoxos/teams-catalog",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/db",
+    "name": "@whoxos/db",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sdk",
+    "name": "@whoxos/plugin-sdk",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/plugin-workspace-diff",
+    "name": "@whoxos/plugin-workspace-diff",
+    "publishFromCi": true
+  },
+  {
+    "dir": "server",
+    "name": "@whoxos/server",
+    "publishFromCi": true
+  },
+  {
+    "dir": "cli",
+    "name": "whoxos",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/mcp-server",
+    "name": "@whoxos/mcp-server",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/google-sheets-mcp-server",
+    "name": "@whoxos/google-sheets-mcp-server",
+    "publishFromCi": false
+  },
+  {
+    "dir": "packages/kv-demo-mcp-server",
+    "name": "@whoxos/kv-demo-mcp-server",
+    "publishFromCi": false
+  },
+  {
+    "dir": "packages/plugins/create-whoxos-plugin",
+    "name": "@whoxos/create-whoxos-plugin",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/cloudflare",
+    "name": "@whoxos/plugin-cloudflare-sandbox",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/daytona",
+    "name": "@whoxos/plugin-daytona",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/exe-dev",
+    "name": "@whoxos/plugin-exe-dev",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/e2b",
+    "name": "@whoxos/plugin-e2b",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/modal",
+    "name": "@whoxos/plugin-modal",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/kubernetes",
+    "name": "@whoxos/plugin-kubernetes",
+    "publishFromCi": true
+  },
+  {
+    "dir": "packages/plugins/sandbox-providers/novita",
+    "name": "@whoxos/plugin-novita-sandbox",
+    "publishFromCi": true
+  },
+  {
+    "dir": "ui",
+    "name": "@whoxos/ui",
+    "publishFromCi": true
+  }
+]

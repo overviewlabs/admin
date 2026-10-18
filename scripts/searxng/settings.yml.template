@@ -1,0 +1,90 @@
+# Private WHOXOS search backend. Never expose this port publicly.
+use_default_settings:
+  engines:
+    keep_only:
+      - bing
+      - duckduckgo
+      - wikipedia
+      - bing images
+      - wikicommons.images
+      - bing videos
+      - duckduckgo videos
+      - youtube
+      - duckduckgo news
+general:
+  debug: false
+  instance_name: "WHOXOS Search"
+  enable_metrics: true
+  open_metrics: ''
+search:
+  safe_search: 0
+  autocomplete: ''
+  default_lang: en
+  formats: [html, json]
+  max_page: 3
+categories_as_tabs:
+  general:
+  images:
+  videos:
+  news:
+server:
+  bind_address: "127.0.0.1"
+  port: 8888
+  base_url: "http://127.0.0.1:8888/"
+  secret_key: "__GENERATED_SECRET__"
+  limiter: false
+  public_instance: false
+  image_proxy: false
+  method: POST
+valkey:
+  url: false
+outgoing:
+  request_timeout: 2.5
+  max_request_timeout: 2.5
+  pool_connections: 32
+ui:
+  query_in_title: false
+engines:
+  - name: bing
+    disabled: false
+    categories: [general]
+    timeout: 2.5
+  - name: duckduckgo
+    disabled: false
+    categories: [general]
+    timeout: 2.5
+  - name: wikipedia
+    disabled: false
+    display_type: [list]
+    categories: [general]
+    timeout: 2.5
+  - name: bing images
+    disabled: false
+    categories: [images]
+    timeout: 2.5
+  - name: wikicommons.images
+    disabled: false
+    categories: [images]
+    timeout: 2.5
+  - name: bing videos
+    disabled: false
+    categories: [videos]
+    timeout: 2.5
+  - name: duckduckgo videos
+    disabled: false
+    categories: [videos]
+    timeout: 2.5
+  - name: youtube
+    disabled: false
+    categories: [videos]
+    timeout: 2.5
+  - name: duckduckgo news
+    disabled: false
+    categories: [news]
+    timeout: 2.5
+  - name: google news rss
+    engine: overview_google_news_rss
+    shortcut: gnrs
+    disabled: false
+    categories: [news]
+    timeout: 2.5

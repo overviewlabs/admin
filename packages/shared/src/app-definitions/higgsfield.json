@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "slug": "higgsfield",
+  "name": "Higgsfield",
+  "description": "Create marketing assets, designs, images, videos, and audio with Higgsfield.",
+  "categories": [
+    "content"
+  ],
+  "featured": false,
+  "branding": {
+    "logoUrl": "/brands/apps/higgsfield.png"
+  },
+  "urlPatterns": [
+    "https://mcp.higgsfield.ai/mcp"
+  ],
+  "methods": [
+    {
+      "key": "mcp-oauth",
+      "transport": "mcp_remote",
+      "auth": "oauth",
+      "ownershipModes": [
+        "customer",
+        "dcr"
+      ],
+      "whenToUse": "Use the provider-hosted connection for the quickest setup.",
+      "defaults": {
+        "serverUrl": "https://mcp.higgsfield.ai/mcp",
+        "scopesHint": [
+          "openid",
+          "email",
+          "offline_access"
+        ]
+      },
+      "guidanceMd": "Sign in to your Higgsfield account. Agents can discover models, generate and edit creative assets, check job status, and retrieve results using the tools your account exposes. Generations use your Higgsfield credits. Choose agent access and allowed actions in Permissions.",
+      "riskTier": "S3",
+      "label": "Sign in with Higgsfield",
+      "grantKinds": [
+        "user"
+      ],
+      "consoleLinks": {
+        "docs": "https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent"
+      },
+      "warnings": [
+        "An active paid Higgsfield subscription. Generations use the connected account’s credits."
+      ]
+    }
+  ],
+  "redirectConstraints": "https-or-loopback-http",
+  "docsUrl": "https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent"
+}

@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 1,
+  "rows": [
+    {
+      "id": "mcp:whoxosMe",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosMe",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L290:whoxosme",
+      "primaryDisposition": "control_plane_owned",
+      "semanticOperation": "injected_actor_context",
+      "expectedMockState": "runtime_decision_record"
+    },
+    {
+      "id": "mcp:whoxosInboxLite",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosInboxLite",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L296:whoxosinboxlite",
+      "primaryDisposition": "control_plane_owned",
+      "semanticOperation": "runner_work_selection",
+      "expectedMockState": "runtime_decision_record"
+    },
+    {
+      "id": "mcp:whoxosListAgents",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListAgents",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L302:whoxoslistagents",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "list_agents",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListSkills",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListSkills",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L308:whoxoslistskills",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "list_company_skills",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetAgent",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetAgent",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L314:whoxosgetagent",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_agent",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListIssues",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListIssues",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L323:whoxoslistissues",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "search_tasks",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetIssue",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetIssue",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L338:whoxosgetissue",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "get_task_context",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetHeartbeatContext",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetHeartbeatContext",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L344:whoxosgetheartbeatcontext",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "get_task_context",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListComments",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListComments",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L353:whoxoslistcomments",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "get_task_history",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetComment",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetComment",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L366:whoxosgetcomment",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "get_task_history",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListIssueApprovals",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListIssueApprovals",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L373:whoxoslistissueapprovals",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "get_task_context",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListDocuments",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListDocuments",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L379:whoxoslistdocuments",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "list_documents",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetDocument",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetDocument",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L385:whoxosgetdocument",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "read_document",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListDocumentRevisions",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListDocumentRevisions",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L392:whoxoslistdocumentrevisions",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "list_document_revisions",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListProjects",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListProjects",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L402:whoxoslistprojects",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "list_projects",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetProject",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetProject",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L408:whoxosgetproject",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_project",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetIssueWorkspaceRuntime",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetIssueWorkspaceRuntime",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L417:whoxosgetissueworkspaceruntime",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_workspace_runtime",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosControlIssueWorkspaceServices",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosControlIssueWorkspaceServices",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L423:whoxoscontrolissueworkspaceservices",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "control_workspace_service",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosWaitForIssueWorkspaceService",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosWaitForIssueWorkspaceService",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L440:whoxoswaitforissueworkspaceservice",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "wait_for_workspace_service",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListGoals",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListGoals",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L466:whoxoslistgoals",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "list_goals",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetGoal",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetGoal",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L472:whoxosgetgoal",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_goal",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListApprovals",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListApprovals",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L478:whoxoslistapprovals",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "list_approvals",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosCreateApproval",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosCreateApproval",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L487:whoxoscreateapproval",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "request_approval",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetApproval",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetApproval",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L496:whoxosgetapproval",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_approval",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosGetApprovalIssues",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosGetApprovalIssues",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L502:whoxosgetapprovalissues",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_approval_context",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosListApprovalComments",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosListApprovalComments",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L508:whoxoslistapprovalcomments",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "get_approval_context",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosCreateIssue",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosCreateIssue",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L514:whoxoscreateissue",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "create_task",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosUpdateIssue",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosUpdateIssue",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L521:whoxosupdateissue",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "semantic_task_disposition",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosCheckoutIssue",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosCheckoutIssue",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L528:whoxoscheckoutissue",
+      "primaryDisposition": "control_plane_owned",
+      "semanticOperation": "atomic_checkout",
+      "expectedMockState": "runtime_decision_record"
+    },
+    {
+      "id": "mcp:whoxosReleaseIssue",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosReleaseIssue",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L540:whoxosreleaseissue",
+      "primaryDisposition": "control_plane_owned",
+      "semanticOperation": "runtime_release",
+      "expectedMockState": "runtime_decision_record"
+    },
+    {
+      "id": "mcp:whoxosAddComment",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosAddComment",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L546:whoxosaddcomment",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "report_progress",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosSuggestTasks",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosSuggestTasks",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L553:whoxossuggesttasks",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "request_human_input",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosAskUserQuestions",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosAskUserQuestions",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L565:whoxosaskuserquestions",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "request_human_input",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosRequestConfirmation",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosRequestConfirmation",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L577:whoxosrequestconfirmation",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "request_human_input",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosRequestCheckboxConfirmation",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosRequestCheckboxConfirmation",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L589:whoxosrequestcheckboxconfirmation",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "request_human_input",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosUpsertIssueDocument",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosUpsertIssueDocument",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L601:whoxosupsertissuedocument",
+      "primaryDisposition": "always_agent_tool",
+      "semanticOperation": "write_document",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosRestoreIssueDocumentRevision",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosRestoreIssueDocumentRevision",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L612:whoxosrestoreissuedocumentrevision",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "restore_document_revision",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosLinkIssueApproval",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosLinkIssueApproval",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L627:whoxoslinkissueapproval",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "link_approval",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosUnlinkIssueApproval",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosUnlinkIssueApproval",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L636:whoxosunlinkissueapproval",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "unlink_approval",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosApprovalDecision",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosApprovalDecision",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L646:whoxosapprovaldecision",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "decide_approval",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosAddApprovalComment",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosAddApprovalComment",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L668:whoxosaddapprovalcomment",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "comment_on_approval",
+      "expectedMockState": "operation_result"
+    },
+    {
+      "id": "mcp:whoxosApiRequest",
+      "kind": "legacy_mcp_tool",
+      "name": "whoxosApiRequest",
+      "sourceAnchor": "packages/mcp-server/src/tools.ts#L677:whoxosapirequest",
+      "primaryDisposition": "optional_agent_tool",
+      "semanticOperation": "test_only_api_escape_hatch",
+      "expectedMockState": "operation_result"
+    }
+  ]
+}

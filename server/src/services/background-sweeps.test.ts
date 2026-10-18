@@ -1,0 +1,54 @@
+import { afterEach, expect, it, vi } from "vitest";
+import { createBackgroundSweeps } from "./background-sweeps.js";
+
+afterEach(() => vi.useRealTimers());
+it("serializes jobs, leaves a gap, and coalesces repeated ticks while queued or active", async () => {
+  vi.useFakeTimers();
+  const onError = vi.fn();
+  const lane = createBackgroundSweeps({ gapMs: 250, onError });
+  let release!: () => void;
+  const first = vi.fn(() => new Promise<void>(resolve => { release = resolve; }));
+  const second = vi.fn(async () => {});
+  const p1 = lane.schedule("first", first)!;
+  const p2 = lane.schedule("second", second)!;
+  expect(lane.schedule("first", first)).toBeNull();
+  expect(lane.schedule("second", second)).toBeNull();
+  await Promise.resolve();
+  expect(first).toHaveBeenCalledTimes(1);
+  expect(second).not.toHaveBeenCalled();
+  release(); await p1;
+  await vi.advanceTimersByTimeAsync(249);
+  expect(second).not.toHaveBeenCalled();
+  await vi.advanceTimersByTimeAsync(1); await p2;
+  expect(second).toHaveBeenCalledTimes(1);
+  expect(onError).not.toHaveBeenCalled();
+  lane.stop();
+});
+it("runs slow retention only when due and does not accumulate overdue copies", async () => {
+  vi.useFakeTimers();
+  const lane = createBackgroundSweeps({ onError: vi.fn() });
+  const work = vi.fn(async () => {});
+  await lane.schedule("retention", work, 300_000);
+  expect(lane.schedule("retention", work, 300_000)).toBeNull();
+  await vi.advanceTimersByTimeAsync(299_999);
+  expect(lane.schedule("retention", work, 300_000)).toBeNull();
+  await vi.advanceTimersByTimeAsync(1);
+  await lane.schedule("retention", work, 300_000);
+  expect(work).toHaveBeenCalledTimes(2);
+  lane.stop();
+});
+it("continues after a failure and settles queued jobs on shutdown without running them", async () => {
+  vi.useFakeTimers();
+  const onError = vi.fn();
+  const lane = createBackgroundSweeps({ onError });
+  const error = new Error("failed maintenance");
+  const first = lane.schedule("broken", async () => { throw error; })!;
+  const queued = vi.fn(async () => {});
+  const second = lane.schedule("queued", queued)!;
+  await first;
+  expect(onError).toHaveBeenCalledWith("broken", error);
+  lane.stop(); await second;
+  await vi.runAllTimersAsync();
+  expect(queued).not.toHaveBeenCalled();
+  expect(lane.schedule("after-stop", queued)).toBeNull();
+});

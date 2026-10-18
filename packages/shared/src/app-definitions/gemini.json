@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "slug": "gemini",
+  "name": "Gemini",
+  "description": "Use your own Gemini API key for voice conversations with your team.",
+  "categories": [
+    "ai"
+  ],
+  "branding": {
+    "logoUrl": "/brands/apps/gemini.svg"
+  },
+  "urlPatterns": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "methods": [
+    {
+      "key": "ai-api_key",
+      "label": "Gemini API key",
+      "purpose": "ai",
+      "transport": "runtime_auth",
+      "auth": "api_key",
+      "ai": {
+        "provider": "gemini",
+        "method": "api_key"
+      },
+      "grantKinds": [
+        "user"
+      ],
+      "ownershipModes": [
+        "customer"
+      ],
+      "whenToUse": "Talk with team members using your personal Gemini API key.",
+      "guidanceMd": "Create a Gemini API key in Google AI Studio with access to the Live API. Only your voice conversations use this connection. Voice usage uses your Google API quota and billing. Your Gemini subscription is separate from API access.",
+      "riskTier": "S3",
+      "credentialFields": [
+        {
+          "key": "apiKey",
+          "label": "API key",
+          "type": "password",
+          "required": true,
+          "placeholder": "Enter API key",
+          "secret": true
+        }
+      ],
+      "keyPlacement": {
+        "location": "env",
+        "name": "GEMINI_API_KEY"
+      },
+      "consoleLinks": {
+        "keys": "https://aistudio.google.com/apikey",
+        "docs": "https://ai.google.dev/gemini-api/docs/live"
+      }
+    }
+  ]
+}

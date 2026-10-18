@@ -1,0 +1,9 @@
+# Treasury personal trading settings
+
+Each authenticated Treasury user controls their own capital allocation, per-trade exposure, daily loss limit, permitted asset classes and symbol allowlist. Select Treasury → My trading settings. The form starts blank; existing research budgets are not personal mandates. Saving settings does not activate broker trading.
+
+`GET /api/companies/:companyId/treasury/settings` derives ownership from the session or the verified active agent run. `PUT` requires a human session and accepts `expectedRevision` plus `limits`. Limits use integer USD cents, positive amounts, maximum trade exposure and daily loss no greater than allocated capital, and explicit instrument allowlists. The primary key is company/user. Authentication, company membership, strict validation, optimistic revisions and transactional audit protect updates. Agents cannot change limits or read another user’s settings through this route. Responses are private and uncached.
+
+The socket-activated Treasury coordinator fetches personal settings only when an authenticated request arrives. It binds proposal access, request-key deduplication and modeled capital reservations to the responsible user. Changed settings invalidate pending/approved decisions on their next access; Risk must review them under the new revision. The service remains decision-only, with no broker-write transport. The daily loss setting is saved for a future live adapter that must verify actual positions, daily P&L, uncertain orders and account readiness before executing.
+
+PostgreSQL migration 0289 adds `treasury_user_settings` with cascading company/user foreign keys. No defaults or capital allocations are seeded. Treasury’s existing private SQLite ledger gains nullable user/revision columns while preserving historical unowned rows and the readiness hold. Runtime documentation and tests are in the separate `Overview-Labs/treasury` repository.

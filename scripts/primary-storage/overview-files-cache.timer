@@ -1,0 +1,8 @@
+[Unit]
+Description=Bound Overview Labs durable file caches hourly
+[Timer]
+OnBootSec=15min
+OnUnitInactiveSec=1h
+Unit=overview-files-cache.service
+[Install]
+WantedBy=timers.target

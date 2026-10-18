@@ -1,0 +1,48 @@
+name: overview-labs-template
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: whoxos
+      POSTGRES_USER: whoxos
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python3 template/configure.py first}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U whoxos -d whoxos]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: production
+    restart: unless-stopped
+    pids_limit: 2048
+    ports:
+      - "127.0.0.1:${OVERVIEW_PORT:-3100}:3100"
+    environment:
+      DATABASE_URL: postgres://whoxos:${POSTGRES_PASSWORD}@db:5432/whoxos
+      PORT: "3100"
+      SERVE_UI: "true"
+      WHOXOS_HOME: /whoxos
+      WHOXOS_DEPLOYMENT_MODE: authenticated
+      WHOXOS_DEPLOYMENT_EXPOSURE: private
+      WHOXOS_PUBLIC_URL: ${WHOXOS_PUBLIC_URL:-http://localhost:3100}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Run python3 template/configure.py first}
+      WHOXOS_TOOL_ACTION_SIGNING_SECRET: ${WHOXOS_TOOL_ACTION_SIGNING_SECRET:?Run python3 template/configure.py first}
+    volumes:
+      - application:/whoxos
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, curl, -fsS, http://localhost:3100/api/health]
+      interval: 30s
+      timeout: 10s
+      start_period: 120s
+      retries: 5
+volumes:
+  database:
+  application:

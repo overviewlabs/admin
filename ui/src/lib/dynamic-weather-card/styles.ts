@@ -1,0 +1,1 @@
+export const gridForecastStyles=`.forecast-scroll{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--weather-forecast-cell)),1fr));overflow:visible}.forecast-item{min-width:0;width:auto}.forecast-wind{white-space:normal}`;

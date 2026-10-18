@@ -1,0 +1,21 @@
+/**
+ * Adapter types shipped with WHOXOS. External plugins must not replace these.
+ */
+export const BUILTIN_ADAPTER_TYPES = new Set([
+  "acpx_local",
+  "claude_local",
+  "codex_local",
+  "whoxos_runner",
+  "cursor_cloud",
+  "cursor",
+  "gemini_local",
+  "grok_local",
+  "hermes_gateway",
+  "hermes_local",
+  "kimi_local",
+  "openclaw_gateway",
+  "opencode_local",
+  "pi_local",
+  "process",
+  "http",
+]);

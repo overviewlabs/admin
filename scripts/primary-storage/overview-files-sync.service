@@ -1,0 +1,12 @@
+[Unit]
+Description=Overview Labs durable file allocation and encrypted database backups
+After=overview-file-store.service
+Wants=overview-file-store.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/libexec/overview-file-store/maintenance.py sync --backups
+UMask=0077
+Nice=15
+CPUQuota=100%
+MemoryMax=2G
+TimeoutStartSec=3h

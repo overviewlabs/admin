@@ -1,0 +1,118 @@
+--- a/cptr/utils/agents/artifacts.py
++++ b/cptr/utils/agents/artifacts.py
+@@ -50,6 +50,16 @@
+                 continue
+             href = token.attrGet("src" if token.type == "image" else "href") or ""
+             path = local_artifact_path(href, workspace)
++            # Directory links are navigation references, never attachments.
++            # Also exclude sockets/devices/FIFOs before opening (a FIFO can block).
++            # Missing or inaccessible files still reach publication so real
++            # delivery failures remain visible to the user.
++            if path:
++                try:
++                    if not stat.S_ISREG(Path(path).stat().st_mode):
++                        continue
++                except OSError:
++                    pass
+             if path and path not in seen:
+                 seen.add(path)
+                 results.append(AgentArtifact(
+--- a/cptr/utils/agents/codex.py
++++ b/cptr/utils/agents/codex.py
+@@ -450,8 +450,18 @@
+         if mcp else {"command": detail}
+         if "command" in normalized_type and detail
+         else {"title": title},
+-        output=None,
++        # Completion includes the authoritative result even when no outputDelta
++        # was delivered. Retain empty output as a valid completed result.
++        output=_completed_tool_output(item) if method == "item/completed" else None,
+     )
++
++
++def _completed_tool_output(item: dict[str, Any]) -> str | None:
++    for key in ("aggregatedOutput", "result", "error", "failure"):
++        value = item.get(key)
++        if value is not None:
++            return value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
++    return None
+ 
+ 
+ def _is_tool_item_type(normalized_type: str) -> bool:
+--- a/cptr/utils/chat_task.py
++++ b/cptr/utils/chat_task.py
+@@ -1736,7 +1736,7 @@
+                 except (OSError, ValueError) as exc:
+                     # Report delivery failure without discarding the assistant's reply.
+                     error_item = {"type": "function_call", "id": f"artifact-error-{event.call_id}",
+-                        "call_id": f"artifact-{event.call_id}", "name": "agent_tool", "native_agent": True,
++                        "call_id": f"artifact-{event.call_id}", "name": "attach_file", "native_agent": True,
+                         "status": "failed", "arguments": {"title": "I couldn't attach this file", "detail": str(exc)}}
+                     _upsert_output_item(output_items, error_item)
+                     _sync_state()
+@@ -1817,6 +1817,7 @@
+                         existing_output
+                         and existing_output.get("output")
+                         and capped_event_output is not None
++                        and event.status not in {"completed", "failed"}
+                     ):
+                         _sync_state()
+                         continue
+--- /dev/null
++++ b/tests/test_admin_tool_results.py
+@@ -0,0 +1,55 @@
++import os
++import tempfile
++import unittest
++from pathlib import Path
++from cptr.utils.agents.artifacts import linked_artifacts
++from cptr.utils.agents.codex import _tool_from_item_event
++
++class ArtifactLinks(unittest.TestCase):
++    def test_directories_and_special_files_are_not_attachments(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            (root / 'project').mkdir()
++            (root / 'alias').symlink_to(root / 'project', target_is_directory=True)
++            os.mkfifo(root / 'pipe')
++            text = ' '.join(f'[{name}](./{name})' for name in ['project', 'alias', 'pipe'])
++            self.assertEqual(linked_artifacts(text, tmp, 'message'), [])
++
++    def test_real_files_and_missing_deliverables_keep_delivery_behavior(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            (Path(tmp) / 'report.txt').write_text('report')
++            events = linked_artifacts('[Report](./report.txt) [Again](./report.txt) [Missing](./missing.txt)', tmp, 'm')
++            self.assertEqual([e.name for e in events], ['report.txt', 'missing.txt'])
++
++    def test_source_navigation_and_web_links_are_not_attachments(self):
++        self.assertEqual(linked_artifacts('[Source](/tmp/app.py:12) [Web](https://example.com)', '/tmp', 'm'), [])
++
++class ToolResults(unittest.TestCase):
++    def event(self, **kwargs):
++        return _tool_from_item_event('item/completed', {'item': {'type':'commandExecution', 'id':'c', 'command':'pwd', 'status':'completed', **kwargs}})
++
++    def test_command_completion_without_delta_keeps_result(self):
++        event = self.event(aggregatedOutput='/root\n', exitCode=0)
++        self.assertEqual(event.output, '/root\n')
++        self.assertEqual(event.status, 'completed')
++
++    def test_empty_result_is_still_a_result(self):
++        self.assertEqual(self.event(aggregatedOutput='', exitCode=0).output, '')
++
++    def test_failure_retains_output_and_failed_status(self):
++        event = self.event(aggregatedOutput='command failed', exitCode=1)
++        self.assertEqual(event.status, 'failed')
++        self.assertEqual(event.output, 'command failed')
++
++    def test_mcp_result_and_error_are_saved(self):
++        for item in [{'result': {'content': [{'type':'text', 'text':'done'}]}}, {'error': {'message':'unavailable'}}]:
++            event = _tool_from_item_event('item/completed', {'item': {'type':'mcpToolCall','id':'m','server':'test','tool':'read','status':'completed',**item}})
++            self.assertTrue(event.output)
++            self.assertEqual(event.status, 'failed' if 'error' in item else 'completed')
++
++    def test_start_does_not_publish_incomplete_output(self):
++        event = _tool_from_item_event('item/started', {'item': {'type':'commandExecution','id':'c','command':'pwd','aggregatedOutput':'partial'}})
++        self.assertIsNone(event.output)
++        self.assertEqual(event.status, 'in_progress')
++
++if __name__ == '__main__': unittest.main()

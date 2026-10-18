@@ -1,0 +1,29 @@
+[Unit]
+Description=Provision private GitHub repositories for Overview Labs organizations
+After=network-online.target WHOXOS.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+UMask=0077
+ExecStart=/usr/bin/node /usr/local/libexec/overview-organization-repositories/worker.mjs
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=120
+StateDirectory=overview-organization-repositories
+StateDirectoryMode=0700
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/overview-organization-repositories /.WHOX/organizations
+ReadOnlyPaths=/root/.config/gh
+PrivateTmp=true
+NoNewPrivileges=true
+Nice=15
+CPUQuota=25%
+CPUWeight=5
+MemoryMax=192M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

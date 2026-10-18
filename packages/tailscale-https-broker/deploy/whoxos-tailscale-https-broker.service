@@ -1,0 +1,26 @@
+[Unit]
+Description=WHOXOS Tailscale HTTPS broker
+After=tailscaled.service
+Requires=tailscaled.service
+
+[Service]
+Type=simple
+User=whoxos-tsbroker
+Group=whoxos-tsbroker-sock
+EnvironmentFile=/etc/whoxos/tailscale-https-broker.env
+ExecStart=/usr/bin/node /opt/whoxos/packages/tailscale-https-broker/dist/main.js
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+RuntimeDirectory=whoxos-tailscale-broker
+RuntimeDirectoryMode=0750
+StateDirectory=whoxos-tailscale-broker
+StateDirectoryMode=0700
+LogsDirectory=whoxos-tailscale-broker
+LogsDirectoryMode=0700
+ReadWritePaths=/run/whoxos-tailscale-broker /var/lib/whoxos-tailscale-broker /var/log/whoxos-tailscale-broker
+
+[Install]
+WantedBy=multi-user.target

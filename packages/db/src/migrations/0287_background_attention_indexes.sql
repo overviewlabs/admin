@@ -1,0 +1,3 @@
+-- whoxos:migration-safety-ignore large-create-index-not-concurrently: Existing populated deployments prebuild this index concurrently before the transactional migration; IF NOT EXISTS skips that build. Fresh databases are empty.
+CREATE INDEX IF NOT EXISTS "heartbeat_run_events_retry_exhaustion_idx" ON "heartbeat_run_events" USING btree ("company_id","run_id","id" DESC NULLS LAST) WHERE "heartbeat_run_events"."event_type" = 'lifecycle' and "heartbeat_run_events"."message" like 'Bounded retry exhausted%';--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "heartbeat_runs_attention_task_latest_idx" ON "heartbeat_runs" USING btree ("company_id","agent_id",coalesce("context_snapshot" ->> 'issueId', "context_snapshot" ->> 'taskId', ''),"created_at" DESC NULLS LAST);

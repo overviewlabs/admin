@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "slug": "whox-mail",
+  "name": "WHOX Mail",
+  "description": "Connect your MXRoute mailbox. Choose read and send permissions for each agent.",
+  "categories": [
+    "communication"
+  ],
+  "branding": {
+    "logoUrl": "/brands/apps/whox-mail.svg"
+  },
+  "urlPatterns": [
+    "https://overviewlabs.ai/api/whox-mail/mcp*"
+  ],
+  "docsUrl": "https://docs.mxroute.com/docs/quick-setup.html",
+  "methods": [
+    {
+      "key": "mailbox",
+      "label": "Email and password",
+      "transport": "mcp_remote",
+      "auth": "api_key",
+      "ownershipModes": [
+        "customer"
+      ],
+      "grantKinds": [
+        "organization"
+      ],
+      "whenToUse": "Connect an existing MXRoute mailbox.",
+      "defaults": {
+        "serverUrlTemplate": "https://overviewlabs.ai/api/whox-mail/mcp?mailbox={email}"
+      },
+      "tenantFields": [
+        {
+          "key": "email",
+          "label": "Email address",
+          "type": "text",
+          "required": true,
+          "placeholder": "team@whox.ai",
+          "validation": {
+            "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+            "maxLength": 254
+          }
+        }
+      ],
+      "credentialFields": [
+        {
+          "key": "password",
+          "label": "Mailbox password",
+          "type": "password",
+          "required": true,
+          "secret": true,
+          "placeholder": "Mailbox password"
+        }
+      ],
+      "keyPlacement": {
+        "location": "header",
+        "name": "Authorization",
+        "prefix": "Bearer "
+      },
+      "guidanceMd": "Enter your existing MXRoute mailbox email and password. WHOX Mail discovers the server from your domain. Set each agent\u2019s Read mail and Write/send mail permissions after connecting.",
+      "riskTier": "S3"
+    }
+  ]
+}

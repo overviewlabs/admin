@@ -1,0 +1,83 @@
+--- a/cptr/routers/chat.py
++++ b/cptr/routers/chat.py
+@@ -8,10 +8,10 @@
+ from datetime import date, datetime, timedelta, timezone
+ import json
+ import logging
+-from typing import List, Optional
++from typing import List, Optional, Literal
+ 
+ from fastapi import APIRouter, HTTPException, Query, Request
+-from pydantic import BaseModel
++from pydantic import BaseModel, Field
+ from sqlalchemy import select
+ 
+ from cptr.models import Chat, ChatMessage, Config, is_internal_chat
+@@ -1417,6 +1417,31 @@
+     return {"ok": True}
+ 
+ 
++class MessageFeedbackRequest(BaseModel):
++    vote: Literal["up", "down"]
++    reason: str | None = Field(default=None, max_length=4000)
++
++
++@router.post("/{chat_id}/messages/{message_id}/feedback")
++async def save_message_feedback(chat_id: str, message_id: str,
++                                body: MessageFeedbackRequest, request: Request):
++    """Store private feedback on the authenticated owner's completed reply."""
++    user_id = _get_user(request)
++    chat = await Chat.get_by_id(chat_id)
++    if not chat or chat.user_id != user_id:
++        raise HTTPException(404, "chat not found")
++    message = await ChatMessage.get_by_id(message_id)
++    if not message or message.chat_id != chat_id or message.role != "assistant":
++        raise HTTPException(404, "message not found")
++    if not message.done:
++        raise HTTPException(409, "Wait for this reply to finish before rating it")
++    feedback = {"vote": body.vote, "reason": body.reason, "updated_at": now_ms()}
++    await ChatMessage.update(message_id, meta={**(message.meta or {}), "feedback": feedback})
++    from cptr.utils.chat_export import export_chat_to_file
++    await export_chat_to_file(chat_id)
++    return {"feedback": feedback}
++
++
+ # ── Update message content / output ────────────────────────
+ 
+ 
+--- /dev/null
++++ b/tests/test_admin_feedback.py
+@@ -0,0 +1,33 @@
++import unittest
++from types import SimpleNamespace
++from unittest.mock import AsyncMock, patch
++from fastapi import HTTPException
++from pydantic import ValidationError
++from cptr.routers.chat import MessageFeedbackRequest, save_message_feedback
++
++class Feedback(unittest.IsolatedAsyncioTestCase):
++    async def invoke(self, owner='owner', message_chat='chat', role='assistant', done=True):
++        with patch('cptr.routers.chat._get_user', return_value='owner'), patch('cptr.routers.chat.Chat.get_by_id', AsyncMock(return_value=SimpleNamespace(user_id=owner))), patch('cptr.routers.chat.ChatMessage.get_by_id', AsyncMock(return_value=SimpleNamespace(chat_id=message_chat, role=role, done=done, meta={'keep':True}))), patch('cptr.routers.chat.ChatMessage.update', AsyncMock()) as update, patch('cptr.utils.chat_export.export_chat_to_file', AsyncMock()) as export:
++            result=await save_message_feedback('chat','message',MessageFeedbackRequest(vote='down',reason='Needs detail'),None)
++            self.assertTrue(update.call_args.kwargs['meta']['keep'])
++            self.assertEqual(update.call_args.kwargs['meta']['feedback']['reason'],'Needs detail')
++            export.assert_awaited_once_with('chat')
++            return result
++    async def test_feedback_persists_and_exports_without_replacing_metadata(self):
++        self.assertEqual((await self.invoke())['feedback']['vote'],'down')
++    async def test_other_owner_is_rejected(self):
++        with self.assertRaises(HTTPException) as error: await self.invoke(owner='other')
++        self.assertEqual(error.exception.status_code,404)
++    async def test_cross_chat_message_is_rejected(self):
++        with self.assertRaises(HTTPException) as error: await self.invoke(message_chat='other')
++        self.assertEqual(error.exception.status_code,404)
++    async def test_user_message_is_rejected(self):
++        with self.assertRaises(HTTPException): await self.invoke(role='user')
++    async def test_unfinished_reply_is_rejected(self):
++        with self.assertRaises(HTTPException) as error: await self.invoke(done=False)
++        self.assertEqual(error.exception.status_code,409)
++    def test_invalid_vote_and_oversized_reason_are_rejected(self):
++        for body in [{'vote':'unknown'},{'vote':'down','reason':'x'*4001}]:
++            with self.assertRaises(ValidationError): MessageFeedbackRequest(**body)
++
++if __name__=='__main__': unittest.main()

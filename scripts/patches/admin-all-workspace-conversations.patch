@@ -1,0 +1,185 @@
+--- a/cptr/models/chats.py
++++ b/cptr/models/chats.py
+@@ -86,6 +86,13 @@
+         async with await get_db() as db:
+             result = await db.execute(select(Chat).where(Chat.id == chat_id))
+             return result.scalar_one_or_none()
++
++    @staticmethod
++    async def get_by_user(user_id: str) -> list[Chat]:
++        """Read the user's conversation metadata across Home and all workspaces."""
++        async with await get_db() as db:
++            result = await db.execute(select(Chat).where(Chat.user_id == user_id))
++            return list(result.scalars().all())
+ 
+     @staticmethod
+     async def get_by_ids(chat_ids: list[str]) -> list[Chat]:
+--- a/cptr/routers/chat.py
++++ b/cptr/routers/chat.py
+@@ -11,12 +11,13 @@
+ import json
+ import logging
+ from typing import List, Optional, Literal
++from pathlib import Path
+ 
+ from fastapi import APIRouter, HTTPException, Query, Request
+ from pydantic import BaseModel, Field
+ from sqlalchemy import select
+ 
+-from cptr.models import Chat, ChatMessage, Config, is_internal_chat
++from cptr.models import Chat, ChatMessage, Config, Workspace, is_internal_chat
+ from cptr.utils.config import check_access, now_ms, _get_jwt_secret
+ from cptr.utils.crypto import decrypt_key
+ from cptr.utils.db import get_db
+@@ -51,43 +52,40 @@
+     offset: int = Query(0, ge=0, description="Number of chats to skip"),
+     sort_by: str = Query("updated_at", description="Sort field: 'title' or 'updated_at'"),
+     sort_dir: str = Query("desc", description="Sort direction: 'asc' or 'desc'"),
++    all_workspaces: bool = Query(False, description="Include Home and every workspace for the authenticated user"),
++    q: str = Query("", max_length=200, description="Filter by conversation title or workspace name before pagination"),
+ ):
+-    """List chats by scanning the workspace or global chat directory.
++    """List owned chats in one workspace, Home, or across all workspaces.
+ 
+     Returns chat metadata with relative folder paths for sidebar display.
+     Supports pagination via limit/offset and sorting via sort_by/sort_dir.
+     """
+     user_id = _get_user(request)
+ 
+-    chats_dir = chat_directory(workspace)
+-
+-    if not chats_dir.exists():
+-        return {"chats": [], "total": 0, "has_more": False}
+-
+-    # Scan filesystem for chat files.
+-    def _scan_chat_files() -> list[dict]:
+-        chat_files = []
+-        for json_file in chats_dir.rglob("*.json"):
+-            chat_id = json_file.stem
+-            rel_folder = str(json_file.parent.relative_to(chats_dir))
+-            if rel_folder == ".":
+-                rel_folder = ""
+-            chat_files.append(
+-                {
+-                    "chat_id": chat_id,
+-                    "folder": rel_folder,
+-                    "path": json_file,
+-                }
+-            )
+-        return chat_files
+-
+-    chat_files = await asyncio.to_thread(_scan_chat_files)
+-
+-    if not chat_files:
+-        return {"chats": [], "total": 0, "has_more": False}
+-
+-    # Batch-fetch from DB
+-    db_chats = await Chat.get_by_ids([chat_file["chat_id"] for chat_file in chat_files])
++    if all_workspaces:
++        # The database is the primary store. A global list must not depend on
++        # workspace directories being mounted, cached, or still present.
++        db_chats, user_workspaces = await asyncio.gather(
++            Chat.get_by_user(user_id), Workspace.get_by_user(user_id)
++        )
++        workspace_names = {ws.path: ws.name for ws in user_workspaces}
++        chat_files = [{"chat_id": chat.id, "folder": "", "path": None} for chat in db_chats]
++    else:
++        chats_dir = chat_directory(workspace)
++        if not chats_dir.exists():
++            return {"chats": [], "total": 0, "has_more": False}
++
++        # Preserve the portable folder list used by existing workspace clients.
++        def _scan_chat_files() -> list[dict]:
++            return [{"chat_id": p.stem,
++                     "folder": "" if p.parent == chats_dir else str(p.parent.relative_to(chats_dir)),
++                     "path": p} for p in chats_dir.rglob("*.json")]
++
++        chat_files = await asyncio.to_thread(_scan_chat_files)
++        if not chat_files:
++            return {"chats": [], "total": 0, "has_more": False}
++        db_chats = await Chat.get_by_ids([chat_file["chat_id"] for chat_file in chat_files])
++        workspace_names = {}
+     chat_by_id = {chat.id: chat for chat in db_chats}
+ 
+     # Detect which chats have a running task (in-memory check, no DB hit)
+@@ -104,6 +102,11 @@
+ 
+         chat_meta = chat.meta if isinstance(chat.meta, dict) else {}
+         if is_internal_chat(chat_meta):
++            continue
++        workspace_path = chat_meta.get("workspace")
++        workspace_name = (workspace_names.get(workspace_path) or Path(workspace_path).name or workspace_path
++                          if isinstance(workspace_path, str) and workspace_path else None)
++        if q.strip() and q.strip().casefold() not in f"{chat.title} {workspace_name or ''}".casefold():
+             continue
+         if chat.meta is not None and not isinstance(chat.meta, dict):
+             log.warning(
+@@ -116,7 +119,7 @@
+ 
+         chat_file_updated_at = None
+         listing_updated_at = chat.updated_at or chat.created_at or 0
+-        if not chat.updated_at:
++        if not chat.updated_at and chat_file["path"] is not None:
+             try:
+                 chat_file_data = json.loads(chat_file["path"].read_text())
+                 chat_file_updated_at = chat_file_data.get("updated_at")
+@@ -190,6 +193,7 @@
+                 "updated_at": listing_updated_at,
+                 "last_read_at": chat.last_read_at,
+                 "is_active": chat.id in active_ids,
++                "workspace_name": workspace_name,
+             }
+         )
+ 
+--- /dev/null
++++ b/tests/test_all_workspace_chats.py
+@@ -0,0 +1,49 @@
++import tempfile
++import unittest
++from pathlib import Path
++from types import SimpleNamespace
++from unittest.mock import AsyncMock, patch
++from cptr.routers.chat import list_chats
++
++def chat(ident,title,workspace=None,owner='owner',**extra):
++    meta={'workspace':workspace} if workspace else {}
++    meta.update(extra)
++    return SimpleNamespace(id=ident,title=title,user_id=owner,meta=meta,summary=None,current_message_id=None,created_at=1,updated_at=10,last_read_at=10)
++
++class Conversations(unittest.IsolatedAsyncioTestCase):
++    async def global_list(self,items,**options):
++        with patch('cptr.routers.chat._get_user',return_value='owner'), \
++             patch('cptr.routers.chat.Chat.get_by_user',AsyncMock(return_value=items)) as load, \
++             patch('cptr.routers.chat.Workspace.get_by_user',AsyncMock(return_value=[SimpleNamespace(path='/projects/studio',name='OVL Studio')])) as workspaces, \
++             patch('cptr.routers.chat.chat_directory',side_effect=AssertionError('Global list must not scan files')), \
++             patch('cptr.utils.chat_task.get_active_chat_ids',return_value=set()):
++            result=await list_chats(None,workspace=None,limit=options.get('limit',30),offset=options.get('offset',0),sort_by='title',sort_dir='asc',all_workspaces=True,q=options.get('q',''))
++            load.assert_awaited_once_with('owner');workspaces.assert_awaited_once_with('owner')
++            return result
++
++    async def test_all_workspaces_and_home_are_combined_and_named(self):
++        result=await self.global_list([chat('h','General'),chat('s','Build','/projects/studio'),chat('x','Host','/projects/System/')])
++        self.assertEqual(result['total'],3)
++        by_id={c['id']:c for c in result['chats']}
++        self.assertIsNone(by_id['h']['workspace_name'])
++        self.assertEqual(by_id['s']['workspace_name'],'OVL Studio')
++        self.assertEqual(by_id['x']['workspace_name'],'System')
++        self.assertEqual(by_id['s']['meta']['workspace'],'/projects/studio')
++
++    async def test_other_users_and_internal_runs_are_excluded(self):
++        result=await self.global_list([chat('ok','Public'),chat('hidden','Hidden',internal=True),chat('sub','Subagent',subagent=True),chat('foreign','Private',owner='someone-else')])
++        self.assertEqual([c['id'] for c in result['chats']],['ok'])
++
++    async def test_search_matches_workspace_before_pagination(self):
++        result=await self.global_list([chat('h','General'),chat('s','Build','/projects/studio'),chat('s2','Deploy','/projects/studio')],q='ovl studio',limit=1,offset=1)
++        self.assertEqual(result['total'],2);self.assertFalse(result['has_more']);self.assertEqual(result['chats'][0]['id'],'s2')
++        first=await self.global_list([chat('s','Build','/projects/studio'),chat('s2','Deploy','/projects/studio')],limit=1)
++        self.assertTrue(first['has_more'])
++
++    async def test_scoped_workspace_listing_keeps_its_portable_folder_behavior(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root=Path(tmp);(root/'folder').mkdir();(root/'folder'/'s.json').write_text('{}')
++            with patch('cptr.routers.chat._get_user',return_value='owner'),patch('cptr.routers.chat.chat_directory',return_value=root),patch('cptr.routers.chat.Chat.get_by_ids',AsyncMock(return_value=[chat('s','Build','/projects/studio')])) as load,patch('cptr.utils.chat_task.get_active_chat_ids',return_value=set()):
++                result=await list_chats(None,workspace='/projects/studio',limit=30,offset=0,sort_by='title',sort_dir='asc',all_workspaces=False,q='')
++                self.assertEqual(result['chats'][0]['folder'],'folder');load.assert_awaited_once_with(['s'])
++if __name__=='__main__':unittest.main()

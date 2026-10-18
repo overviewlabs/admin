@@ -1,0 +1,62 @@
+{
+  "name": "whoxos",
+  "version": "0.3.1",
+  "description": "WHOXOS CLI \u2014 orchestrate AI agent teams to run a business",
+  "type": "module",
+  "bin": {
+    "whoxos": "./dist/index.js",
+    "whox": "./dist/index.js"
+  },
+  "keywords": [
+    "whoxos",
+    "ai",
+    "agents",
+    "orchestration",
+    "cli"
+  ],
+  "license": "MIT",
+  "homepage": "https://overviewlabs.ai",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "node --input-type=module -e \"import esbuild from 'esbuild'; import config from './esbuild.config.mjs'; await esbuild.build(config);\" && chmod +x dist/index.js",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0",
+    "@whoxos/adapter-claude-local": "workspace:*",
+    "@whoxos/adapter-codex-local": "workspace:*",
+    "@whoxos/adapter-cursor-cloud": "workspace:*",
+    "@whoxos/adapter-cursor-local": "workspace:*",
+    "@whoxos/adapter-gemini-local": "workspace:*",
+    "@whoxos/adapter-grok-local": "workspace:*",
+    "@whoxos/adapter-kimi-local": "workspace:*",
+    "@whoxos/adapter-opencode-local": "workspace:*",
+    "@whoxos/adapter-pi-local": "workspace:*",
+    "@whoxos/adapter-openclaw-gateway": "workspace:*",
+    "@whoxos/adapter-utils": "workspace:*",
+    "@whoxos/db": "workspace:*",
+    "@whoxos/server": "workspace:*",
+    "@whoxos/shared": "workspace:*",
+    "@whoxos/hermes-whoxos-adapter": "workspace:*",
+    "drizzle-orm": "0.45.2",
+    "dotenv": "^17.4.2",
+    "commander": "^15.0.0",
+    "embedded-postgres": "^18.1.0-beta.16",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=24.11.0"
+  }
+}

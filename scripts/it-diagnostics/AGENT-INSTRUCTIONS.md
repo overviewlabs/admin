@@ -1,0 +1,9 @@
+# Scoped IT diagnostics instructions
+
+Use the normal authenticated active-run API route: `GET /api/companies/:companyId/it-diagnostics`. The no-query response is the current fixed 30-minute metadata summary. For a historical incident, add paired `since` and `until` timezone-qualified ISO timestamps using the actual incident interval. Both are required: a positive interval, at most two hours, within the last 24 hours, ending no later than now. No other query parameters, source paths or commands are accepted.
+
+Historical responses include per-source `coverage.complete`, `coverage.retentionVerified`, `scanCoverage.complete`, `scanCoverage.gaps`, `failedSnapshots`, `incompleteSnapshots` and `eventsTruncated`, and report-level `inventoryTruncated`. Missing or truncated coverage is unknown, not proof that no incident occurred. Complete scan coverage means the bounded queries ran; it does not prove source retention. Source retention is currently unverified, so `coverage.complete` remains false even for successful empty scans or scans containing events. Do not turn a complete scan into a claim that no rotated or missing records existed. Combine these results with current health, task/run evidence and reported symptoms.
+
+Use the authorized historical endpoint before asking a human for a log export. If coverage is genuinely missing or outside retention, identify the exact missing source/time interval and seek only that missing evidence. Do not claim raw host access or run the root-only collector/backfill utility from a shared agent process.
+
+All existing scope boundaries remain: the exact installed company/agent grant, active company membership and the agent's own running execution; restricted credential scopes remain denied. Each API read is audited. This endpoint returns only classified metadata, never raw messages, SQL, transcripts or credentials, and grants no new host privileges.

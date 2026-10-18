@@ -1,0 +1,46 @@
+import type {
+  CompanyStatus,
+  IssueThreadInteractionKind,
+  IssueThreadInteractionResolverPolicy,
+  PauseReason,
+} from "../constants.js";
+
+export interface InteractionResolverKindGovernance {
+  defaultPolicy?: IssueThreadInteractionResolverPolicy;
+  cap?: IssueThreadInteractionResolverPolicy;
+}
+
+export type InteractionResolverGovernance = Partial<
+  Record<IssueThreadInteractionKind, InteractionResolverKindGovernance>
+> & {
+  /** Server-owned, revocable authority; never accepted through ordinary settings updates. */
+  executiveDelegation?: {
+    agentId: string;
+    grantedByUserId: string;
+    grantedAt: string;
+  };
+};
+
+export interface Company {
+  id: string;
+  name: string;
+  description: string | null;
+  status: CompanyStatus;
+  pauseReason: PauseReason | null;
+  pausedAt: Date | null;
+  issuePrefix: string;
+  issueCounter: number;
+  budgetMonthlyCents: number;
+  spentMonthlyCents: number;
+  defaultResponsibleUserId: string | null;
+  requireBoardApprovalForNewAgents: boolean;
+  interactionResolverGovernance: InteractionResolverGovernance;
+  feedbackDataSharingEnabled: boolean;
+  feedbackDataSharingConsentAt: Date | null;
+  feedbackDataSharingConsentByUserId: string | null;
+  feedbackDataSharingTermsVersion: string | null;
+  logoAssetId: string | null;
+  logoUrl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}

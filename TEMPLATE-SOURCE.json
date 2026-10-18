@@ -1,0 +1,25 @@
+{
+  "capturedAt": "2026-10-18T01:58:27.479118+00:00",
+  "upstream": "https://github.com/paperclipai/paperclip",
+  "sourceHead": "1acf1b72a760a1a58662ad06bdea6abc2bbaeedb",
+  "files": 7760,
+  "bytes": 249529266,
+  "excludedCount": 6256,
+  "exportPolicy": {
+    "gitHistoryIncluded": false,
+    "instanceStateIncluded": false,
+    "dependenciesIncluded": false,
+    "optionalHostReferenceIncluded": true,
+    "upstreamPublishingWorkflowsIncluded": false
+  },
+  "validation": {
+    "workspaceLockfile": "pnpm install --lockfile-only --offline --frozen-lockfile --ignore-scripts passed",
+    "fullApplicationBuild": "not run; unchanged application source snapshot",
+    "fullApplicationTestSuite": "not run; unchanged application source snapshot",
+    "templateStructure": "passed",
+    "composeConfiguration": "passed",
+    "uniqueSecretGenerationAndOverwriteProtection": "passed",
+    "secretScan": "passed with 51 reviewed content-pinned synthetic/public-identifier matches",
+    "knownLiveCredentialCrossCheck": "passed; no matches"
+  }
+}

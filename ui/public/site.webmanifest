@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "WHOXOS",
+  "short_name": "WHOXOS",
+  "description": "AI-powered project management and agent coordination platform",
+  "start_url": "/?source=homescreen",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#18181b",
+  "background_color": "#151515",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png?v=overview-logo-1",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png?v=overview-logo-1",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png?v=overview-logo-1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "display_override": [
+    "standalone"
+  ]
+}

@@ -1,0 +1,103 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
+
+const packageJsonPath = fileURLToPath(
+  new URL("../../package.json", import.meta.url),
+);
+const runnerShimPath = fileURLToPath(
+  new URL("../vendor/whoxos-runner/index.ts", import.meta.url),
+);
+const evidenceClassifierPath = fileURLToPath(
+  new URL("../services/native-runtime/evidence-classifier.ts", import.meta.url),
+);
+const workspaceDiffReprojectionPath = fileURLToPath(
+  new URL("../services/provider-trace-workspace-diff-reprojection.ts", import.meta.url),
+);
+
+describe("server package build script", () => {
+  it("builds the compiled package entry during prepack", () => {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+      scripts?: Record<string, string>;
+    };
+
+    expect(packageJson.scripts?.prepack).toBe(
+      "pnpm run prepare:ui-dist && pnpm run build",
+    );
+  });
+
+  it("copies static runtime asset directories into dist", () => {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+      scripts?: Record<string, string>;
+    };
+    const buildScript = packageJson.scripts?.build ?? "";
+
+    expect(buildScript).toContain(
+      "mkdir -p dist/onboarding-assets dist/built-ins",
+    );
+    expect(buildScript).toContain(
+      "cp -R src/onboarding-assets/. dist/onboarding-assets/",
+    );
+    expect(buildScript).toContain("cp -R src/built-ins/. dist/built-ins/");
+  });
+
+  it("vendors the private runner runtime without a production workspace dependency", () => {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+      scripts?: Record<string, string>;
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    };
+
+    expect(
+      packageJson.dependencies?.["@whoxos/whoxos-runner"],
+    ).toBeUndefined();
+    expect(packageJson.devDependencies?.["@whoxos/whoxos-runner"]).toBe(
+      "workspace:*",
+    );
+    expect(packageJson.scripts?.["prepare:runner-vendor"]).toBe(
+      "pnpm --filter @whoxos/whoxos-runner build",
+    );
+    expect(packageJson.scripts?.build).toContain(
+      "cp -R ../packages/whoxos-runner/dist/. dist/vendor/whoxos-runner/",
+    );
+  });
+
+  it("verifies vendored runner dependencies are mirrored before building", () => {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+      scripts?: Record<string, string>;
+    };
+
+    // See scripts/verify-runner-vendor-dependencies.mjs: packages/whoxos-runner
+    // is vendored with a raw `cp -R` of its compiled dist/, so every runtime
+    // dependency it imports must also be a direct dependency of server. This
+    // check derives that requirement from an esbuild scan of the vendored
+    // entry points instead of relying on a human to have kept a hand-copied
+    // list in sync (the smol-toml incident in #13110/#13116).
+    expect(packageJson.scripts?.build).toContain(
+      "node scripts/verify-runner-vendor-dependencies.mjs",
+    );
+  });
+
+  it("loads runner source when the source server starts before workspace builds", () => {
+    const shim = readFileSync(runnerShimPath, "utf8");
+
+    expect(shim).toContain(
+      '"../../../../packages/whoxos-runner/src/index.ts"',
+    );
+    expect(shim).not.toContain(
+      'export * from "@whoxos/whoxos-runner"',
+    );
+  });
+
+  it("routes source-mode runtime imports through the runner shim", () => {
+    for (const consumerPath of [
+      evidenceClassifierPath,
+      workspaceDiffReprojectionPath,
+    ]) {
+      const consumer = readFileSync(consumerPath, "utf8");
+
+      expect(consumer).toContain('vendor/whoxos-runner/index.js"');
+      expect(consumer).not.toContain('from "@whoxos/whoxos-runner"');
+    }
+  });
+});

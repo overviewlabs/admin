@@ -1,0 +1,44 @@
+import { test, expect } from '@playwright/test';
+import { installBrowserVoiceFixture, startVoice, stats } from './helpers';
+test.use({ serviceWorkers: 'block' });
+test('conference picker, five participants, floor handoff, transcript, removal and hangup', async ({ page }) => {
+ const requests = await installBrowserVoiceFixture(page); await startVoice(page);
+ await page.getByRole('button', {name:'Add to call',exact:true}).click();
+ await expect(page.getByRole('dialog')).toBeVisible();
+ for (let i=1;i<=4;i++) await page.getByRole('checkbox',{name:`Agent ${i}`,exact:true}).check();
+ await expect(page.getByRole('checkbox',{name:'Agent 5',exact:true})).toBeDisabled();
+ await page.getByRole('button',{name:'Add 4 to call',exact:true}).click();
+ await expect(page.getByRole('dialog')).toHaveCount(0);
+ const panel=page.getByRole('complementary',{name:'Conference Call'});
+ await expect(panel).toContainText('5/5'); await expect(panel.getByRole('button',{name:'Add agents'})).toBeDisabled();
+ await expect.poll(() => stats(page)).toMatchObject({openSockets:5});
+ const box=await panel.boundingBox(); expect(box!.height).toBeGreaterThan(300); expect(box!.x).toBeGreaterThan(500);
+ await panel.getByRole('button',{name:'Give turn'}).first().click();
+ await page.evaluate(() => (window as any).__voiceBrowser.sockets[1].emit({serverContent:{outputTranscription:{text:'Agent one is ready.',finished:true},turnComplete:true,interactionStatus:'IDLE'}}));
+ await expect(page.getByTestId('saved-transcripts')).toContainText('Agent one is ready.');
+ await panel.getByRole('button',{name:'Remove Agent 1 from call'}).click();
+ await expect(panel).toContainText('4/5'); await expect.poll(() => stats(page)).toMatchObject({openSockets:4});
+ await page.getByRole('button',{name:'End voice',exact:true}).click();
+ await expect(panel).toHaveCount(0); await expect.poll(() => stats(page)).toMatchObject({openSockets:0,runningContexts:0});
+ expect(requests.unknown).toEqual([]);
+});
+test('spoken invitation adds the named agent and scheduled handoff identifies the next speaker', async ({ page }) => {
+ await installBrowserVoiceFixture(page); await startVoice(page);
+ await page.evaluate(() => (window as any).__voiceBrowser.sockets[0].emit({toolCall:{functionCalls:[{id:'invite',name:'conference_call',args:{action:'add',agent:'Agent 1'}}]}}));
+ const panel=page.getByRole('complementary',{name:'Conference Call'});
+ await expect(panel).toContainText('Agent 1'); await expect.poll(() => stats(page)).toMatchObject({openSockets:2,toolResponses:1});
+ await page.evaluate(() => (window as any).__voiceBrowser.sockets[0].emit({toolCall:{functionCalls:[{id:'handoff',name:'conference_call',args:{action:'handoff',agent:'Agent 1',message:'Please give your update.'}}]}}));
+ await expect.poll(() => page.evaluate(() => (window as any).__voiceBrowser.clientContentFrames.some((f:any) => JSON.stringify(f).includes('Please give your update.')))).toBe(true);
+ await page.getByRole('button',{name:'End voice',exact:true}).click();
+});
+test('mobile invitation dialog remains usable above the participant panel', async ({ page }) => {
+ await page.setViewportSize({width:390,height:844});
+ await installBrowserVoiceFixture(page); await startVoice(page);
+ await page.getByRole('button',{name:'Add to call',exact:true}).click();
+ await page.getByRole('checkbox',{name:'Agent 1',exact:true}).check();
+ await page.getByRole('button',{name:'Add 1 to call',exact:true}).click();
+ await expect(page.getByRole('dialog')).toHaveCount(0);
+ await expect(page.getByRole('complementary',{name:'Conference Call'})).toContainText('2/5');
+ await page.getByRole('button',{name:'Collapse conference panel'}).click();
+ await page.getByRole('button',{name:'End voice',exact:true}).click();
+});

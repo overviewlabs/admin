@@ -1,0 +1,462 @@
+{
+  "schema": "whoxos.prp.contract_manifest.v1",
+  "protocolVersion": 2,
+  "fixtureVersion": 1,
+  "generatedFrom": [
+    "protocol/schemas",
+    "protocol/fixtures"
+  ],
+  "schemas": [
+    {
+      "path": "schemas/capabilities-v2.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v2/capabilities.schema.json",
+      "sha256": "e6c3d45cbb34be3c0b00024289724fca58fd02bd9d22234c8f95ea30e7a3f12f"
+    },
+    {
+      "path": "schemas/capabilities.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/capabilities.schema.json",
+      "sha256": "1dd9ad175afa8c520417679ee5b1cbede68f3061e5f3466470f82e1b502f4bbe"
+    },
+    {
+      "path": "schemas/command-v2.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v2/command.schema.json",
+      "sha256": "6bed703f826db3a9e7558c255def719767ed8036941e8bc3bf23a99fa118b830"
+    },
+    {
+      "path": "schemas/command.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/command.schema.json",
+      "sha256": "192cce52eccead9b60c361e3f9f28141bd92bcce633213ff55bbcf4a2f40a545"
+    },
+    {
+      "path": "schemas/conformance-fixture.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/conformance-fixture.schema.json",
+      "sha256": "e64e60a77322e8af5a81f2cee1096623cea8e6655ffcbf06b55d1fbba87e74d9"
+    },
+    {
+      "path": "schemas/conformance-output.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/conformance-output.schema.json",
+      "sha256": "03a8eef008570551b1e2e41f51299d1d3f6246a7d72ca89e54238a358c7c2abe"
+    },
+    {
+      "path": "schemas/event-v2.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v2/event.schema.json",
+      "sha256": "36d00840002b9e2a4ed5072918871598bc8875c143d742caebc37a5552723523"
+    },
+    {
+      "path": "schemas/event.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/event.schema.json",
+      "sha256": "bdc8c5fbf2107d5a9e4c9f45997270e7ebff483ae1986219e0480ce80ab9feed"
+    },
+    {
+      "path": "schemas/fixture.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/fixture.schema.json",
+      "sha256": "f27fc343447967b3f69d73d68d0d4d50fb595cde4a59f73477b065899d655aa1"
+    },
+    {
+      "path": "schemas/identity.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/identity.schema.json",
+      "sha256": "388d3f90f16514a8fa7c3bad43293c248b4da4c7648dd2b16cc71db6a749503f"
+    },
+    {
+      "path": "schemas/native-execution.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/native-execution.schema.json",
+      "sha256": "21d09c08f797c491ddc5e1918d715c0def1095b353cc02b6c550ed5da480b02c"
+    },
+    {
+      "path": "schemas/provider-descriptor.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/provider-descriptor.schema.json",
+      "sha256": "127cc64383e8a8aedc842570d01601266c8accf67aa773fcb4b68d748b5b198e"
+    },
+    {
+      "path": "schemas/provider-event.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/provider-event.schema.json",
+      "sha256": "731730f6261a532c2f2bc500486ed47e425bbcab6fdaa41af1c7eb3ab98dad69"
+    },
+    {
+      "path": "schemas/question-adapter-fixture.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/question-adapter-fixture.schema.json",
+      "sha256": "7ae94b91dc62f20bfaddd098fe695be003fbc9ba42c6e306d486003fc4e1d0d3"
+    },
+    {
+      "path": "schemas/question-response.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/question-response.schema.json",
+      "sha256": "cac2598cd4d67ad4ce67fde0288504964e827a1bbe0c01d4bc4c03d40ce0d829"
+    },
+    {
+      "path": "schemas/question-set.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/question-set.schema.json",
+      "sha256": "ec49bc8f3496b151f545006f4a909351b86399ccf25b4c7f7126dc137f0f749b"
+    },
+    {
+      "path": "schemas/request.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/request.schema.json",
+      "sha256": "c8af7e1698242058806d658c465cc0b59a97b22e90f3fab5ea2324ec051d2951"
+    },
+    {
+      "path": "schemas/result.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/result.schema.json",
+      "sha256": "95c6cf8069dd75e3a01e06cc39cb1c485fd0bea22b4b49ecf1a59f4e651fbe09"
+    },
+    {
+      "path": "schemas/semantic-tool.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/semantic-tool.schema.json",
+      "sha256": "2482c721421f0b8340bbfbd2569b39f126f223dc5bd00c2d65ac6f4d701a5ec9"
+    },
+    {
+      "path": "schemas/session-goal.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v2/session-goal.schema.json",
+      "sha256": "ee92bb1f53570c90a3dce35b4c52c97158a04e80c53bff3859845174497555be"
+    },
+    {
+      "path": "schemas/stop-reason.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/stop-reason.schema.json",
+      "sha256": "4b2a2075f422ceb00bb4a629c4faaf32cad9cdcf261288620aa8b0e255eb08ce"
+    },
+    {
+      "path": "schemas/terminal.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/terminal.schema.json",
+      "sha256": "dfaa9e64e871d31cb1dc9d5308c5a84c466c525b310d3225f06a4fe7e45dbfce"
+    },
+    {
+      "path": "schemas/usage.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/usage.schema.json",
+      "sha256": "1d3759aaef7a23d67edd60a1745e965efa1fb9193a0b487505557505c43309dd"
+    },
+    {
+      "path": "schemas/workspace-diff.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/workspace-diff.schema.json",
+      "sha256": "dcd70ffd831b621cf0aa3ade4787aa0e2706519857859b571b9add30c1df288d"
+    },
+    {
+      "path": "schemas/workspace-file-reference.schema.json",
+      "id": "https://whoxos.dev/schemas/prp/v1/workspace-file-reference.schema.json",
+      "sha256": "4034bf603c4b2beb84906a560c716b5d1299c0c134b0ae75a88078ae4a18829b"
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "fixtures/codex-driver/driver-conformance.json",
+      "sha256": "56b13f9a1dc34564ed1fafbe21893b6769e8efe14cd7258e13a7f64fffdf21ad",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/conformance-expected-output.json",
+      "sha256": "8a05ae6a09bde6d8d29cd12ee7647c1dfe821c95eb17932c3b87783543b5ffb3",
+      "expectation": "accept",
+      "compatibilityCase": "cross-language-output"
+    },
+    {
+      "path": "fixtures/conformance-minimal-run.json",
+      "sha256": "cbadd912805672e6ea7319386679be3c908afa29bd759d27a2c21c44260b2327",
+      "expectation": "accept",
+      "compatibilityCase": "cross-language-input"
+    },
+    {
+      "path": "fixtures/evals/harness-driver-conformance.json",
+      "sha256": "bc36776e53d6b5d3f6df2e22fe823b45b67edfc5d098a94763daf31e6a3e4600",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/evals/native-execution-seeded.json",
+      "sha256": "b304feae5f88202c3695cd2d2a7d52f596227e4286ed7984a8e9f3e5904bd0db",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/duplicate-terminal.json",
+      "sha256": "53bda0699dd41334c65afad777885cdc58ab096a1004a03a4a5f4b962399c048",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/error.json",
+      "sha256": "9a82c662743733d182ad5c827c5a704d517036a24e1ce8699dd307ab93cb9077",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/happy-path.json",
+      "sha256": "af5fa8910cf1f19ad895cc973f385a4b4ac5c14608c524310f3a0526f7f7b32b",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/interrupted.json",
+      "sha256": "860c33d68cd27658835437219ec34e29c531e244966ac2ce692683a5b0ded7ba",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/linger.json",
+      "sha256": "abdd0c62980da82f5196e1531f8bc0916ef7ebb6c3ef0a032e32a9e1b55e4d41",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/oversized-line.json",
+      "sha256": "3e2b7da314d393d9a011b4fb24e70c16bc937533a3ccf0d3d39f4ff872f18068",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/local-runner/scripts/permission-input.json",
+      "sha256": "9f51a66b79af6b9d3085479ac4007803fad948f6249c9428be5c2892598126c4",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/provider-boundary/local-integrity.json",
+      "sha256": "6c6b38d75807e9752540f25548a9abce8188d7d967784d91781a474e4fe6ea5b",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/questions/acpx.json",
+      "sha256": "7927b03472564de4fd9f0e1bec3a0830b79e70d889339bddf8146c641c3ee489",
+      "expectation": "accept",
+      "compatibilityCase": "acpx-structured-input"
+    },
+    {
+      "path": "fixtures/questions/codex.json",
+      "sha256": "d4b5b0465651a623ca7654254dbc7e8c598baca0c81d5edfaf48a36dbbbfaf23",
+      "expectation": "accept",
+      "compatibilityCase": "codex-structured-input"
+    },
+    {
+      "path": "fixtures/questions/opencode.json",
+      "sha256": "11a8db69479a0d4dd0c1ae07b54cba346ae0b96266340d87f32653701391b556",
+      "expectation": "accept",
+      "compatibilityCase": "opencode-structured-input"
+    },
+    {
+      "path": "fixtures/replay/budget-cost-stop-reason.json",
+      "sha256": "f1fddec82b21cb8879489efd965a72c94ec53dbac5b0cb4b6268f11fc9a7c9e2",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/duplicate-event.json",
+      "sha256": "f0cca653cd24e0ee1a7e278a85963cccc938ed516e95694efb17b17bff858227",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/failed-run.json",
+      "sha256": "98d122c9ad1e61e90ea2371e0ed8d7230ebb1a0d9c3de82ae0b8b1717c2a30e1",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/golden/budget-cost-stop-reason.snapshot.json",
+      "sha256": "7cfd710e221d7bc77ac1b04d833de43672786c3df929014f2ab30097d2828180",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/budget-cost-stop-reason.summary.json",
+      "sha256": "4c5c1a2a68e38655746b81940b45b77fa74142a1d0cb80c9c8045ca4643b0d94",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/duplicate-event.snapshot.json",
+      "sha256": "87b16883a3032aed08b544b81e3579236f72b2342f715e30d175ad1230d01191",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/duplicate-event.summary.json",
+      "sha256": "dcbb2dae5810649cc59c6c0fe136e1033131d9510ebcbcc5f3435bfa998b95c9",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/failed-run.snapshot.json",
+      "sha256": "74dd7e541b0a06f3879bc30d32c25eca49805f0d9f7c59dd8a2feebb1eb73b03",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/failed-run.summary.json",
+      "sha256": "d7ac19d40b5d1d6106e2232cd2436ba1c4232bc6daa8a71957f12300ba851f65",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/happy-path.snapshot.json",
+      "sha256": "803ebf9db569e9f1211ac9e1e73d9d16103ccb9f31f07e783cf718a755d8496a",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/happy-path.summary.json",
+      "sha256": "00d2a033518c7b3f51ecb10aa64f7456922f6b3f930d853b3db35e72eaf55325",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/interrupted-run.snapshot.json",
+      "sha256": "ede8c4723d2f7f3917763e4ad6373740c89a2189d7b4766545815c77ec742757",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/interrupted-run.summary.json",
+      "sha256": "753f226607b2d97301736d7f54b281ab7157397f3f32015c644787d370526332",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-artifact-happy-path.snapshot.json",
+      "sha256": "24a7a9f54eecf15640fa763fdb33c86f78478fdee9c882e74a271f53f3dcb95c",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-artifact-happy-path.summary.json",
+      "sha256": "8b3e72e071f7458e67180fdd9933bb89cb6458f2507f2706000c1f172d1e529f",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-conflict-duplicate-retry.snapshot.json",
+      "sha256": "258c65a65c80e73c493a2ba511690fd4f47e4e1eabc48c33a7f5d14d0c139b61",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-conflict-duplicate-retry.summary.json",
+      "sha256": "f0b277d37c422b90d2012ad61ea5fbe214ebf1607f1a6c2419c518c4f9a52b7e",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-denial-redaction.snapshot.json",
+      "sha256": "c0b8b614f3961cd7e97965af3f96048fc052de6359be9c02a9a44d3bd91c2c97",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-denial-redaction.summary.json",
+      "sha256": "b0379c2ea8d30e9c2866d3737d9fdc73711de24a955364bd78b75769d925764f",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-governance-wake-monitor.snapshot.json",
+      "sha256": "4093a44ab7594973b51ce679a1007e066bdb75fbe22d1c72b4af0362af358b33",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-governance-wake-monitor.summary.json",
+      "sha256": "a20a038c04e3f023f7eb478b67144fca48dd288cf484e74d66810d92debc62e5",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-unknown-optional-envelope.snapshot.json",
+      "sha256": "bf9f1e39ade9732b47eccd072796a16c2591a24fe57fcb0e7eb553079bad11f0",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/semantic-tool-unknown-optional-envelope.summary.json",
+      "sha256": "51fb686791aa158f9a23a0c2b90ca24d43bcc953add9e3277ab3f01b958fc26a",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/source-gap.snapshot.json",
+      "sha256": "cbb1a3f183543dffc0fde7ec30928ca7aed7e0dea7435350f17a81ad28755b89",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/source-gap.summary.json",
+      "sha256": "861d0ee3fafe13bf8bf0fb71b7c1ef9a62cb26efba4dc8db889f36d27a14a813",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/unknown-optional-fields.snapshot.json",
+      "sha256": "75807c2c0cd56b2676f2d41b6c559da90396fb0b5d97a6c433e84e73c906b969",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/golden/unknown-optional-fields.summary.json",
+      "sha256": "7d983bcad0439b7884e70d07f8070b53ed594fba2da3e8ac6998570e238e84dc",
+      "expectation": "accept",
+      "compatibilityCase": "deterministic-replay-oracle"
+    },
+    {
+      "path": "fixtures/replay/happy-path.json",
+      "sha256": "62befb6baff23b9b94255fb3cdd2406a73dbd98d5b1e39259529d87e4a28b62a",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/interrupted-run.json",
+      "sha256": "6d54b6379c6d8c18a007c5885e7f2c58d436b93ee88fcfdca1573011bb6072df",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/semantic-tool-artifact-happy-path.json",
+      "sha256": "dd481bf1cecbe070d737c48580201611ce7b2993054c7cbdbf6d090e77ffa32f",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/semantic-tool-conflict-duplicate-retry.json",
+      "sha256": "df47b5707df7ca4df49dc3ed13dd03cece159ef9eedae600ef75a5c74ceb2408",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/semantic-tool-denial-redaction.json",
+      "sha256": "63d1537fd9db7546d69d787c0258c2aacb49b69b671dfd44044df0f712e611cf",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/semantic-tool-governance-wake-monitor.json",
+      "sha256": "c569dd14ba92df184a14e8057124b92fd146fd3440af1d8fbdd70d305b9b5352",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/semantic-tool-unknown-optional-envelope.json",
+      "sha256": "585be453f7e5aece3e556957b68cb2a33c0a222decfdf8fbfd6ae71badc03e1f",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/semantic-tool-unsupported-required-version.json",
+      "sha256": "88e99a41fa6eef80049949d69538626c4b4f085108512750b1c500317dd8ebe8",
+      "expectation": "reject",
+      "compatibilityCase": "unknown-required-version"
+    },
+    {
+      "path": "fixtures/replay/source-gap.json",
+      "sha256": "0ab12bf11e41d3b86f96b416d37f4e76c41b0f819c9050b26d8259bf3bb1a2fe",
+      "expectation": "accept",
+      "compatibilityCase": "canonical"
+    },
+    {
+      "path": "fixtures/replay/unknown-optional-fields.json",
+      "sha256": "3abd623d102c8785978602cb128fe373a074d7d8185ac822fc01fee6db4f2aeb",
+      "expectation": "accept",
+      "compatibilityCase": "additive-optional-fields"
+    },
+    {
+      "path": "fixtures/replay/unsupported-required-version.json",
+      "sha256": "7228297cc59dd4a0668113b81b7c447d20a52c205707e37e8d83711353813ff7",
+      "expectation": "reject",
+      "compatibilityCase": "unknown-required-version"
+    }
+  ]
+}

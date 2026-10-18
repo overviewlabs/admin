@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#18181b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="WHOXOS" />
+    <title>WHOXOS</title>
+    <!-- WHOXOS_RUNTIME_BRANDING_START -->
+    <!-- WHOXOS_RUNTIME_BRANDING_END -->
+    <!-- WHOXOS_FAVICON_START -->
+    <link rel="icon" href="/favicon.ico?v=overview-logo-1" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg?v=overview-logo-1" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=overview-logo-1" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=overview-logo-1" />
+    <!-- WHOXOS_FAVICON_END -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=overview-logo-1" />
+    <link rel="manifest" href="/site.webmanifest?v=overview-logo-1" crossorigin="use-credentials" />
+    <script>
+      (() => {
+        const key = "whoxos.theme";
+        const darkThemeColor = "#18181b";
+        const lightThemeColor = "#ffffff";
+        try {
+          const stored = window.localStorage.getItem(key);
+          const prefersDark =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const fallback = prefersDark ? "dark" : "light";
+          const theme = stored === "light" || stored === "dark" ? stored : fallback;
+          const isDark = theme === "dark";
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+          const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+          if (themeColorMeta) {
+            themeColorMeta.setAttribute("content", isDark ? darkThemeColor : lightThemeColor);
+          }
+        } catch {
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <div id="app-startup" role="status" aria-live="polite" style="min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:2rem;box-sizing:border-box;font-family:ui-sans-serif,system-ui,sans-serif;text-align:center">
+        <div style="max-width:30rem">
+          <h1 style="font-size:1.25rem">WHOXOS</h1>
+          <p id="app-startup-message">Opening your workspace…</p>
+          <button id="app-startup-reload" type="button" hidden style="padding:.65rem 1rem;cursor:pointer">Reload app</button>
+          <details id="app-startup-details" hidden style="margin-top:1rem;text-align:left">
+            <summary>Startup details</summary>
+            <pre id="app-startup-error" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:.8rem"></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+    <script data-app-startup>
+      (function () {
+        // This runs before the module graph. React's error boundary cannot catch
+        // a failed module download or a browser error before React mounts.
+        var message = document.getElementById("app-startup-message");
+        var reload = document.getElementById("app-startup-reload");
+        var failed = false;
+        function showFailure(detail) {
+          if (!document.getElementById("app-startup") || failed) return;
+          failed = true;
+          message.textContent = "WHOXOS could not finish starting. Reload the app to try again.";
+          reload.hidden = false;
+          if (detail) {
+            document.getElementById("app-startup-error").textContent = String(detail).slice(0, 1000);
+            document.getElementById("app-startup-details").hidden = false;
+            document.getElementById("app-startup-details").open = true;
+          }
+        }
+        function inspectScript(script) {
+          var source;
+          try { source = new URL(script.src, window.location.href); } catch (_) { return; }
+          if (source.origin !== window.location.origin) return;
+          showFailure("An app file could not be loaded: " + source.pathname);
+          var report = document.getElementById("app-startup-error");
+          // Check delivery without relying on the failed browser HTTP-cache entry.
+          // No credentials or query strings are included in the diagnostic.
+          window.fetch(source.href, { method: "HEAD", cache: "reload" }).then(function (response) {
+            if (!document.getElementById("app-startup")) return;
+            report.textContent += "\nFile check: HTTP " + response.status + " (" + (response.headers.get("content-type") || "no content type") + ").";
+            if (response.ok) inspectDependencies(report);
+          }).catch(function () {
+            if (!document.getElementById("app-startup")) return;
+            report.textContent += "\nFile check: the browser could not reach this app file.";
+          });
+        }
+        function inspectDependencies(report) {
+          // A failed imported module is reported as an entry-script failure by
+          // Safari. Check preload URLs to identify that otherwise hidden file.
+          var links = Array.prototype.slice.call(document.querySelectorAll('link[rel="modulepreload"]'));
+          var next = 0;
+          var failures = [];
+          function checkNext() {
+            if (next >= links.length || !document.getElementById("app-startup")) return Promise.resolve();
+            var url = new URL(links[next++].href, window.location.href);
+            if (url.origin !== window.location.origin || url.pathname.indexOf("/assets/") !== 0) return checkNext();
+            var controller = new AbortController();
+            var timeout = window.setTimeout(function () { controller.abort(); }, 5000);
+            return window.fetch(url.href, { method: "HEAD", cache: "reload", signal: controller.signal }).then(function (response) {
+              if (!response.ok || !/javascript|ecmascript/.test(response.headers.get("content-type") || "")) {
+                failures.push(url.pathname + ": HTTP " + response.status);
+              }
+            }).catch(function () {
+              failures.push(url.pathname + ": download blocked or interrupted");
+            }).then(function () { window.clearTimeout(timeout); return checkNext(); });
+          }
+          Promise.all([checkNext(), checkNext(), checkNext()]).then(function () {
+            if (!document.getElementById("app-startup")) return;
+            report.textContent += failures.length ? "\nFailed app files:\n" + failures.slice(0, 6).join("\n") : "\nOther app files: reachable. Use Reload app to retry startup.";
+          });
+        }
+        window.addEventListener("securitypolicyviolation", function (event) {
+          showFailure("Browser security policy blocked app startup: " + event.violatedDirective);
+        });
+        window.addEventListener("error", function (event) {
+          if (event.message) showFailure(event.message);
+          else if (event.target && event.target.tagName === "SCRIPT") inspectScript(event.target);
+        }, true);
+        window.addEventListener("unhandledrejection", function (event) {
+          showFailure(event.reason && event.reason.message ? event.reason.message : "App startup was interrupted.");
+        });
+        var watchdog = window.setTimeout(function () {
+          showFailure("Startup took longer than expected. Check your connection and reload the app.");
+        }, 15000);
+        new MutationObserver(function (_, observer) {
+          if (!document.getElementById("app-startup")) {
+            window.clearTimeout(watchdog);
+            observer.disconnect();
+          }
+        }).observe(document.getElementById("root"), { childList: true });
+        reload.onclick = function () {
+          reload.disabled = true;
+          message.textContent = "Reloading WHOXOS…";
+          // Only app caches are reset. Cookies and account preferences survive.
+          var cleanup = [];
+          if ("serviceWorker" in navigator) {
+            cleanup.push(navigator.serviceWorker.getRegistrations().then(function (registrations) {
+              return Promise.all(registrations.filter(function (registration) {
+                var worker = registration.active || registration.waiting || registration.installing;
+                return worker && new URL(worker.scriptURL).pathname === "/sw.js";
+              }).map(function (registration) { return registration.unregister(); }));
+            }).catch(function () {}));
+          }
+          if ("caches" in window) {
+            cleanup.push(window.caches.keys().then(function (keys) {
+              return Promise.all(keys.filter(function (key) {
+                return key.indexOf("whoxos-") === 0;
+              }).map(function (key) { return window.caches.delete(key); }));
+            }).catch(function () {}));
+          }
+          Promise.race([Promise.all(cleanup), new Promise(function (resolve) { window.setTimeout(resolve, 1500); })]).then(function () {
+            window.location.reload();
+          });
+        };
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

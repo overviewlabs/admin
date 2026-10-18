@@ -1,0 +1,101 @@
+import { afterEach, describe, expect, it, vi } from "vitest";
+import type { AdapterExecutionTarget } from "@whoxos/adapter-utils/execution-target";
+
+// The managed-config step runs inside `prepareSandboxClaudeProbeRuntime`. The
+// step resolves the WHOXOS instance root first. This mock makes that resolve
+// throw, so the managed-config materialization fails with a controllable error
+// that carries a secret marker.
+const { resolveInstanceRoot } = vi.hoisted(() => {
+  const resolveInstanceRoot: { throwError: Error | null } = { throwError: null };
+  return { resolveInstanceRoot };
+});
+
+vi.mock("@whoxos/adapter-utils/execution-target", async () => {
+  const actual = await vi.importActual<typeof import("@whoxos/adapter-utils/execution-target")>(
+    "@whoxos/adapter-utils/execution-target",
+  );
+  return {
+    ...actual,
+    maybeRunSandboxInstallCommand: vi.fn(async () => null),
+  };
+});
+
+vi.mock("@whoxos/adapter-utils/server-utils", async () => {
+  const actual = await vi.importActual<typeof import("@whoxos/adapter-utils/server-utils")>(
+    "@whoxos/adapter-utils/server-utils",
+  );
+  return {
+    ...actual,
+    resolveWHOXOSInstanceRootForAdapter: (...args: unknown[]) => {
+      if (resolveInstanceRoot.throwError) throw resolveInstanceRoot.throwError;
+      return (
+        actual.resolveWHOXOSInstanceRootForAdapter as (...a: unknown[]) => string
+      )(...args);
+    },
+  };
+});
+
+import { prepareSandboxClaudeProbeRuntime } from "./claude-config.js";
+
+const sandboxTarget: AdapterExecutionTarget = {
+  kind: "remote",
+  transport: "sandbox",
+  providerKey: "daytona",
+  remoteCwd: "/home/daytona/whoxos-workspace",
+  runner: {
+    execute: async () => ({
+      exitCode: 0,
+      signal: null,
+      timedOut: false,
+      stdout: "",
+      stderr: "",
+      pid: null,
+      startedAt: new Date().toISOString(),
+    }),
+  },
+};
+
+afterEach(() => {
+  vi.clearAllMocks();
+  resolveInstanceRoot.throwError = null;
+});
+
+describe("prepareSandboxClaudeProbeRuntime managed-config redaction", () => {
+  it("never copies a materialization error into a Test-result check", async () => {
+    // A materialization failure can carry a credential. Inject a secret marker
+    // through the thrown error and assert no check text repeats it.
+    const secret = "sk-ant-MANAGEDMARKER0123456789abcdef";
+    resolveInstanceRoot.throwError = new Error(`materialize failed with ${secret}`);
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const checks = await prepareSandboxClaudeProbeRuntime({
+      runId: "test-run",
+      target: sandboxTarget,
+      cwd: "/home/daytona/whoxos-workspace",
+      env: {},
+      installCommand: "npm i -g @anthropic-ai/claude-code",
+      detectCommand: "claude --version",
+      targetIsRemote: true,
+      targetIsSandbox: true,
+      helloProbeTimeoutSec: 5,
+    });
+
+    const failedCheck = checks.find((check) => check.code === "claude_managed_config_dir_failed");
+    expect(failedCheck).toBeDefined();
+    expect(failedCheck?.level).toBe("error");
+
+    const checkText = JSON.stringify(checks);
+    expect(checkText).not.toContain(secret);
+    expect(checkText).not.toContain("MANAGEDMARKER");
+    // The diagnostic still reaches the server log, but it carries only the
+    // fixed context and the allowlisted classification, never the raw error
+    // text. The classification is `spawn_error`, because the materialization
+    // step threw before the probe ran.
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    const loggedText = JSON.stringify(warnSpy.mock.calls);
+    expect(loggedText).not.toContain(secret);
+    expect(loggedText).not.toContain("MANAGEDMARKER");
+    expect(warnSpy.mock.calls[0]?.[1]).toMatchObject({ classification: "spawn_error" });
+    warnSpy.mockRestore();
+  });
+});

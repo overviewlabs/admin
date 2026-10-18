@@ -1,0 +1,418 @@
+/* OpenUI component tokens inherit Overview Labs runtime theme tokens. */
+:root {
+  --openui-background: var(--background);
+  --openui-foreground: var(--card);
+  --openui-popover-background: var(--card);
+  --openui-sunk-light: var(--muted);
+  --openui-sunk: var(--muted);
+  --openui-sunk-deep: var(--muted);
+  --openui-elevated-light: var(--muted);
+  --openui-elevated: var(--muted);
+  --openui-elevated-strong: var(--muted);
+  --openui-elevated-intense: var(--muted);
+  --openui-overlay: var(--muted);
+  --openui-highlight-subtle: var(--muted);
+  --openui-highlight: var(--muted);
+  --openui-highlight-strong: var(--muted);
+  --openui-highlight-intense: var(--muted);
+  --openui-inverted-background: var(--primary);
+  --openui-info-background: var(--muted);
+  --openui-success-background: var(--muted);
+  --openui-alert-background: var(--muted);
+  --openui-danger-background: var(--muted);
+  --openui-purple-background: var(--muted);
+  --openui-pink-background: var(--muted);
+  --openui-text-neutral-primary: var(--foreground);
+  --openui-text-neutral-secondary: var(--muted-foreground);
+  --openui-text-neutral-tertiary: var(--muted-foreground);
+  --openui-text-neutral-link: var(--foreground);
+  --openui-text-brand: var(--foreground);
+  --openui-text-white: var(--primary-foreground);
+  --openui-text-black: var(--foreground);
+  --openui-text-accent-primary: var(--primary-foreground);
+  --openui-text-accent-secondary: var(--primary-foreground);
+  --openui-text-accent-tertiary: var(--primary-foreground);
+  --openui-text-success-primary: var(--foreground);
+  --openui-text-success-inverted: var(--primary-foreground);
+  --openui-text-alert-primary: var(--foreground);
+  --openui-text-alert-inverted: var(--primary-foreground);
+  --openui-text-danger-primary: var(--destructive);
+  --openui-text-danger-secondary: var(--muted-foreground);
+  --openui-text-danger-tertiary: var(--muted-foreground);
+  --openui-text-danger-inverted-primary: var(--primary-foreground);
+  --openui-text-danger-inverted-secondary: var(--primary-foreground);
+  --openui-text-danger-inverted-tertiary: var(--primary-foreground);
+  --openui-text-info-primary: var(--foreground);
+  --openui-text-info-inverted: var(--primary-foreground);
+  --openui-text-pink-primary: var(--foreground);
+  --openui-text-pink-inverted: var(--primary-foreground);
+  --openui-text-purple-primary: var(--foreground);
+  --openui-text-purple-inverted: var(--primary-foreground);
+  --openui-interactive-accent-default: var(--primary);
+  --openui-interactive-accent-hover: var(--primary);
+  --openui-interactive-accent-disabled: var(--secondary);
+  --openui-interactive-accent-pressed: var(--primary);
+  --openui-interactive-destructive-default: var(--destructive);
+  --openui-interactive-destructive-hover: var(--destructive);
+  --openui-interactive-destructive-disabled: var(--secondary);
+  --openui-interactive-destructive-pressed: var(--destructive);
+  --openui-interactive-destructive-accent-default: var(--primary);
+  --openui-interactive-destructive-accent-hover: var(--primary);
+  --openui-interactive-destructive-accent-pressed: var(--primary);
+  --openui-interactive-destructive-accent-disabled: var(--secondary);
+  --openui-border-default: var(--border);
+  --openui-border-interactive: var(--border);
+  --openui-border-interactive-emphasis: var(--border);
+  --openui-border-interactive-selected: var(--border);
+  --openui-border-accent: var(--border);
+  --openui-border-accent-emphasis: var(--border);
+  --openui-border-info: var(--border);
+  --openui-border-info-emphasis: var(--border);
+  --openui-border-alert: var(--border);
+  --openui-border-alert-emphasis: var(--border);
+  --openui-border-success: var(--border);
+  --openui-border-success-emphasis: var(--border);
+  --openui-border-danger: var(--border);
+  --openui-border-danger-emphasis: var(--border);
+  --openui-letter-spacing-normal: 0;
+  --openui-letter-spacing-tight: 0;
+  --openui-letter-spacing-tighter: 0;
+  --openui-text-body-xs: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-xs-letter-spacing: 0;
+  --openui-text-body-xs-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-xs-heavy-letter-spacing: 0;
+  --openui-text-body-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-sm-letter-spacing: 0;
+  --openui-text-body-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-sm-heavy-letter-spacing: 0;
+  --openui-text-body-default: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-default-letter-spacing: 0;
+  --openui-text-body-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-default-heavy-letter-spacing: 0;
+  --openui-text-body-lg: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-lg-letter-spacing: 0;
+  --openui-text-body-lg-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-lg-heavy-letter-spacing: 0;
+  --openui-text-heading-xs: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-xs-letter-spacing: 0;
+  --openui-text-heading-sm: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-sm-letter-spacing: 0;
+  --openui-text-heading-md: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-md-letter-spacing: 0;
+  --openui-text-heading-lg: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-lg-letter-spacing: 0;
+  --openui-text-heading-xl: 600 var(--text-xl)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-xl-letter-spacing: 0;
+  --openui-text-label-xs: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-xs-letter-spacing: 0;
+  --openui-text-label-xs-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-xs-heavy-letter-spacing: 0;
+  --openui-text-label-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-sm-letter-spacing: 0;
+  --openui-text-label-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-sm-heavy-letter-spacing: 0;
+  --openui-text-label-default: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-default-letter-spacing: 0;
+  --openui-text-label-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-default-heavy-letter-spacing: 0;
+  --openui-text-label-lg: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-lg-letter-spacing: 0;
+  --openui-text-label-lg-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-lg-heavy-letter-spacing: 0;
+  --openui-text-numbers-xs: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-xs-letter-spacing: 0;
+  --openui-text-numbers-xs-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-xs-heavy-letter-spacing: 0;
+  --openui-text-numbers-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-sm-letter-spacing: 0;
+  --openui-text-numbers-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-sm-heavy-letter-spacing: 0;
+  --openui-text-numbers-default: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-default-letter-spacing: 0;
+  --openui-text-numbers-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-default-heavy-letter-spacing: 0;
+  --openui-text-numbers-lg: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-lg-letter-spacing: 0;
+  --openui-text-numbers-lg-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-lg-heavy-letter-spacing: 0;
+  --openui-text-numbers-heading-sm: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-sm-letter-spacing: 0;
+  --openui-text-numbers-heading-md: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-md-letter-spacing: 0;
+  --openui-text-numbers-heading-lg: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-lg-letter-spacing: 0;
+  --openui-text-numbers-heading-xl: 600 var(--text-xl)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-xl-letter-spacing: 0;
+  --openui-text-code-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-sm-letter-spacing: 0;
+  --openui-text-code-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-sm-heavy-letter-spacing: 0;
+  --openui-text-code-default: 400 var(--text-base)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-default-letter-spacing: 0;
+  --openui-text-code-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-default-heavy-letter-spacing: 0;
+  --openui-background: var(--background);
+  --openui-foreground: var(--card);
+  --openui-popover-background: var(--card);
+  --openui-sunk-light: var(--muted);
+  --openui-sunk: var(--muted);
+  --openui-sunk-deep: var(--muted);
+  --openui-elevated-light: var(--muted);
+  --openui-elevated: var(--muted);
+  --openui-elevated-strong: var(--muted);
+  --openui-elevated-intense: var(--muted);
+  --openui-overlay: var(--muted);
+  --openui-highlight-subtle: var(--muted);
+  --openui-highlight: var(--muted);
+  --openui-highlight-strong: var(--muted);
+  --openui-highlight-intense: var(--muted);
+  --openui-inverted-background: var(--primary);
+  --openui-info-background: var(--muted);
+  --openui-success-background: var(--muted);
+  --openui-alert-background: var(--muted);
+  --openui-danger-background: var(--muted);
+  --openui-purple-background: var(--muted);
+  --openui-pink-background: var(--muted);
+  --openui-text-neutral-primary: var(--foreground);
+  --openui-text-neutral-secondary: var(--muted-foreground);
+  --openui-text-neutral-tertiary: var(--muted-foreground);
+  --openui-text-neutral-link: var(--foreground);
+  --openui-text-brand: var(--foreground);
+  --openui-text-white: var(--primary-foreground);
+  --openui-text-black: var(--foreground);
+  --openui-text-accent-primary: var(--primary-foreground);
+  --openui-text-accent-secondary: var(--primary-foreground);
+  --openui-text-accent-tertiary: var(--primary-foreground);
+  --openui-text-success-primary: var(--foreground);
+  --openui-text-success-inverted: var(--primary-foreground);
+  --openui-text-alert-primary: var(--foreground);
+  --openui-text-alert-inverted: var(--primary-foreground);
+  --openui-text-danger-primary: var(--destructive);
+  --openui-text-danger-secondary: var(--muted-foreground);
+  --openui-text-danger-tertiary: var(--muted-foreground);
+  --openui-text-danger-inverted-primary: var(--primary-foreground);
+  --openui-text-danger-inverted-secondary: var(--primary-foreground);
+  --openui-text-danger-inverted-tertiary: var(--primary-foreground);
+  --openui-text-info-primary: var(--foreground);
+  --openui-text-info-inverted: var(--primary-foreground);
+  --openui-text-pink-primary: var(--foreground);
+  --openui-text-pink-inverted: var(--primary-foreground);
+  --openui-text-purple-primary: var(--foreground);
+  --openui-text-purple-inverted: var(--primary-foreground);
+  --openui-interactive-accent-default: var(--primary);
+  --openui-interactive-accent-hover: var(--primary);
+  --openui-interactive-accent-disabled: var(--secondary);
+  --openui-interactive-accent-pressed: var(--primary);
+  --openui-interactive-destructive-default: var(--destructive);
+  --openui-interactive-destructive-hover: var(--destructive);
+  --openui-interactive-destructive-disabled: var(--secondary);
+  --openui-interactive-destructive-pressed: var(--destructive);
+  --openui-interactive-destructive-accent-default: var(--primary);
+  --openui-interactive-destructive-accent-hover: var(--primary);
+  --openui-interactive-destructive-accent-pressed: var(--primary);
+  --openui-interactive-destructive-accent-disabled: var(--secondary);
+  --openui-border-default: var(--border);
+  --openui-border-interactive: var(--border);
+  --openui-border-interactive-emphasis: var(--border);
+  --openui-border-interactive-selected: var(--border);
+  --openui-border-accent: var(--border);
+  --openui-border-accent-emphasis: var(--border);
+  --openui-border-info: var(--border);
+  --openui-border-info-emphasis: var(--border);
+  --openui-border-alert: var(--border);
+  --openui-border-alert-emphasis: var(--border);
+  --openui-border-success: var(--border);
+  --openui-border-success-emphasis: var(--border);
+  --openui-border-danger: var(--border);
+  --openui-border-danger-emphasis: var(--border);
+  --openui-letter-spacing-normal: 0;
+  --openui-letter-spacing-tight: 0;
+  --openui-letter-spacing-tighter: 0;
+  --openui-text-body-xs: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-xs-letter-spacing: 0;
+  --openui-text-body-xs-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-xs-heavy-letter-spacing: 0;
+  --openui-text-body-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-sm-letter-spacing: 0;
+  --openui-text-body-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-sm-heavy-letter-spacing: 0;
+  --openui-text-body-default: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-default-letter-spacing: 0;
+  --openui-text-body-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-default-heavy-letter-spacing: 0;
+  --openui-text-body-lg: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-lg-letter-spacing: 0;
+  --openui-text-body-lg-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-body-lg-heavy-letter-spacing: 0;
+  --openui-text-heading-xs: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-xs-letter-spacing: 0;
+  --openui-text-heading-sm: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-sm-letter-spacing: 0;
+  --openui-text-heading-md: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-md-letter-spacing: 0;
+  --openui-text-heading-lg: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-lg-letter-spacing: 0;
+  --openui-text-heading-xl: 600 var(--text-xl)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-heading-xl-letter-spacing: 0;
+  --openui-text-label-xs: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-xs-letter-spacing: 0;
+  --openui-text-label-xs-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-xs-heavy-letter-spacing: 0;
+  --openui-text-label-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-sm-letter-spacing: 0;
+  --openui-text-label-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-sm-heavy-letter-spacing: 0;
+  --openui-text-label-default: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-default-letter-spacing: 0;
+  --openui-text-label-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-default-heavy-letter-spacing: 0;
+  --openui-text-label-lg: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-lg-letter-spacing: 0;
+  --openui-text-label-lg-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-label-lg-heavy-letter-spacing: 0;
+  --openui-text-numbers-xs: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-xs-letter-spacing: 0;
+  --openui-text-numbers-xs-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-xs-heavy-letter-spacing: 0;
+  --openui-text-numbers-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-sm-letter-spacing: 0;
+  --openui-text-numbers-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-sm-heavy-letter-spacing: 0;
+  --openui-text-numbers-default: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-default-letter-spacing: 0;
+  --openui-text-numbers-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-default-heavy-letter-spacing: 0;
+  --openui-text-numbers-lg: 400 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-lg-letter-spacing: 0;
+  --openui-text-numbers-lg-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-lg-heavy-letter-spacing: 0;
+  --openui-text-numbers-heading-sm: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-sm-letter-spacing: 0;
+  --openui-text-numbers-heading-md: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-md-letter-spacing: 0;
+  --openui-text-numbers-heading-lg: 600 var(--text-lg)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-lg-letter-spacing: 0;
+  --openui-text-numbers-heading-xl: 600 var(--text-xl)/var(--chat-input-line-height) var(--rich-font);
+  --openui-text-numbers-heading-xl-letter-spacing: 0;
+  --openui-text-code-sm: 400 var(--text-sm)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-sm-letter-spacing: 0;
+  --openui-text-code-sm-heavy: 600 var(--text-sm)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-sm-heavy-letter-spacing: 0;
+  --openui-text-code-default: 400 var(--text-base)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-default-letter-spacing: 0;
+  --openui-text-code-default-heavy: 600 var(--text-base)/var(--chat-input-line-height) var(--font-mono);
+  --openui-text-code-default-heavy-letter-spacing: 0;
+  --openui-font-family: var(--rich-font);
+}
+.openui-answer { container: openui-responsive / inline-size; min-width: 0; width: 100%; overflow-wrap: anywhere; }
+.openui-answer > div { min-width: 0; }
+.openui-answer .openui-stack, .openui-answer .openui-form { min-width: 0; max-width: 100%; }
+.openui-answer .openui-table-container { overflow-x: auto; max-width: 100%; }
+.openui-answer [class*="skeleton"] { animation: none; }
+.openui-answer [class*="chart"] { max-width: 100%; }
+.openui-stream-frame { transition: height var(--motion-duration-base) var(--motion-ease-out-expo); }
+.openui-answer[data-visible="false"] * { animation-play-state: paused !important; }
+.openui-stream-frame[data-resizing="true"] { overflow: clip; }
+.openui-stream-content { display: flow-root; }
+.openui-answer[data-animate="true"] .openui-reveal {
+  animation: openui-reveal var(--motion-duration-base) var(--motion-ease-out-expo) both;
+}
+@keyframes openui-reveal {
+  from { opacity: 0; transform: translateY(var(--openui-reveal-offset)); }
+  to { opacity: 1; transform: none; }
+}
+.openui-answer .openui-image-frame { display: flex; width: 100%; aspect-ratio: var(--openui-image-ratio); background: var(--muted); border-radius: var(--radius-lg); overflow: hidden; }
+.openui-answer .openui-image-frame > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.chat-stream-scroll[data-following="true"] { overflow-anchor: none; }
+.chat-stream-scroll { scroll-behavior: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .openui-stream-frame { transition: none; }
+  .openui-answer[data-animate] .openui-reveal { animation: none; }
+}
+/* Syntax-highlighter inline palettes must follow the selected site theme. */
+.openui-answer .openui-code-block-syntax-highlighter,
+.openui-answer .openui-code-block-syntax-highlighter code,
+.openui-answer .openui-code-block-syntax-highlighter span {
+  color: var(--foreground) !important;
+  background: var(--muted) !important;
+}
+
+/* Reflow from the actual layout width, including nested cards and split panes.
+   Native props/state stay intact; CSS alone responds to resizing. */
+.openui-layout { container: openui-responsive / inline-size; width: 100%; min-width: 0; max-width: 100%; }
+.openui-layout > div { width: 100%; min-width: 0; max-width: 100%; }
+.openui-layout > div > * { min-width: 0; max-width: 100%; }
+.openui-layout[data-direction="row"] > div { flex-wrap: wrap !important; }
+.openui-layout[data-direction="row"] > div > * { flex: 1 1 var(--openui-column-min); }
+.openui-answer :where(div, form, fieldset) { min-width: 0; max-width: 100%; }
+.openui-answer :where(input, textarea, select) { box-sizing: border-box; min-width: 0; max-width: 100%; font-size: var(--text-base); }
+.openui-answer :where(img, video, canvas) { max-width: 100%; }
+.openui-answer :where(button, [role="button"]) { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.openui-answer :where(.openui-tabs, .openui-tabs-content, .openui-form-control, [role="form"], .openui-card, .openui-steps-container, .openui-composite-card, .openui-context-card) { width: 100%; min-width: 0; }
+.openui-answer .openui-select-trigger { width: 100%; min-width: 0; font-size: var(--text-base); }
+.openui-answer .openui-select-trigger > span { min-width: 0; overflow-wrap: anywhere; white-space: normal; text-align: start; }
+.openui-answer .openui-table-container,
+.openui-answer .openui-editable-table-scroll-container,
+.openui-answer .openui-code-block-syntax-highlighter,
+.openui-answer pre { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+.openui-answer :where(.openui-table-cell, .openui-table-head) { min-width: var(--openui-table-column-min); max-width: var(--openui-table-column-max); white-space: normal; overflow-wrap: anywhere; }
+.openui-answer .openui-table { min-width: 100%; }
+.openui-answer .openui-tabs-trigger { flex-shrink: 0; }
+.openui-answer .openui-tabs-trigger-text,
+.openui-answer .openui-tabs-trigger-subtext { white-space: normal; overflow-wrap: anywhere; }
+.openui-answer .openui-gallery { grid-template-columns: minmax(0, 1fr); }
+.openui-answer .openui-carousel-item { max-width: 100%; }
+.openui-answer .openui-stacked-legend { min-width: 0; }
+.openui-answer .openui-stacked-legend__item-label-text { white-space: normal; overflow-wrap: anywhere; }
+.openui-answer .openui-stacked-legend__item { height: auto; min-height: var(--openui-touch-target); }
+.openui-answer .openui-slider-root { min-width: 0; }
+.openui-answer .openui-slider-left-content,
+.openui-answer .openui-slider-right-content { min-width: 0; flex-shrink: 1; }
+.openui-answer .openui-slider-block__header { flex-wrap: wrap; gap: var(--openui-space-s); }
+.openui-answer .openui-slider-block__error-message { white-space: normal; }
+.openui-answer .openui-calendar-root { --openui-calendar-day-size: min(var(--openui-touch-target), 11cqi); }
+
+@container openui-responsive (min-width: 40rem) {
+  .openui-answer .openui-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container openui-responsive (max-width: 40rem) {
+  .openui-layout[data-direction="row"] > div { flex-direction: column !important; align-items: stretch !important; }
+  .openui-layout[data-direction="row"] > div > * { flex: 0 1 auto; width: 100%; }
+  .openui-answer .openui-buttons-horizontal { flex-direction: column; }
+  .openui-answer .openui-buttons-horizontal > * { width: 100%; }
+  .openui-answer .openui-chart-with-stacked-legend--row { flex-direction: column; }
+  .openui-answer .openui-chart-with-stacked-legend--row .openui-chart-with-stacked-legend__legend { height: auto; flex: auto; }
+  .openui-answer :where(.openui-small-card-block__row, .openui-medium-card-block__row, .openui-option-cards__row) { grid-template-columns: minmax(0, 1fr); }
+  .openui-answer :where(.openui-small-card-block__grid--responsive, .openui-medium-card-block__grid--responsive, .openui-option-cards__grid--responsive) { grid-template-columns: minmax(0, 1fr); }
+  .openui-answer .openui-card { padding-inline: var(--openui-space-s); }
+}
+
+/* These menus are portaled outside the answer. Bound them to the viewport. */
+.openui-select-content { max-width: calc(100vw - var(--openui-dialog-gutter) * 2); max-height: min(var(--radix-select-content-available-height, 100dvh), calc(100dvh - var(--openui-dialog-gutter) * 2)); }
+.openui-select-item-text,
+.openui-select-item > span:not(.openui-select-item-check-wrapper) { min-width: 0; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.openui-dialog[data-slot="dialog-content"] {
+  top: 50%; transform: translate(-50%, -50%); translate: none;
+  width: calc(100% - var(--openui-dialog-gutter) * 2 - env(safe-area-inset-left) - env(safe-area-inset-right));
+  max-width: var(--openui-dialog-md);
+  max-height: calc(100dvh - var(--openui-dialog-gutter) * 2 - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow-y: auto; overscroll-behavior: contain; padding: var(--openui-dialog-gutter);
+}
+.openui-dialog[data-size="sm"] { max-width: var(--openui-dialog-sm); }
+.openui-dialog[data-size="lg"] { max-width: var(--openui-dialog-lg); }
+.openui-dialog [data-slot="dialog-title"] { padding-inline-end: var(--openui-touch-target); line-height: var(--chat-input-line-height); overflow-wrap: anywhere; }
+.openui-dialog .openui-dialog-image { max-height: var(--openui-dialog-image-height); width: 100%; object-fit: contain; }
+.openui-dialog [data-slot="dialog-close"] { min-width: var(--openui-touch-target); min-height: var(--openui-touch-target); top: var(--spacing); right: var(--spacing); }
+@media (any-pointer: coarse) {
+  .openui-answer :where(button:not([role="switch"]):not([role="checkbox"]):not([role="radio"]), [role="button"], [role="tab"], [role="combobox"], input:not([type="checkbox"]):not([type="radio"]), textarea, select),
+  .openui-select-item { min-height: var(--openui-touch-target); }
+  .openui-answer :where(.openui-icon-button, .openui-slider-thumb) { min-width: var(--openui-touch-target); min-height: var(--openui-touch-target); }
+  .openui-answer .openui-slider-thumb { display: flex; align-items: center; justify-content: center; }
+  .openui-answer :where(.openui-checkbox-item-container, .openui-radio-item-container, .openui-switch-item-container, .openui-slider-wrapper) { min-height: var(--openui-touch-target); }
+  .openui-answer .openui-switch-item-label { display: flex; align-items: center; min-height: var(--openui-touch-target); }
+  .openui-answer :where(.openui-calendar-single-day, .openui-calendar-range-day) { height: var(--openui-touch-target); min-height: var(--openui-touch-target); }
+}
+
+.openui-answer { min-height: var(--openui-pending-height); }
+.openui-answer[data-animate="true"] > .openui-finished-answer { animation: openui-reveal var(--motion-duration-base) var(--motion-ease-out-expo) both; }
+@media (prefers-reduced-motion: reduce) { .openui-answer > .openui-finished-answer { animation: none; } }

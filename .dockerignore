@@ -1,0 +1,44 @@
+.git
+.github
+.whoxos
+.pnpm-store
+node_modules
+**/node_modules
+coverage
+data
+tmp
+*.log
+packages/whoxos-runner/dist
+packages/whoxos-runner/runner/target
+packages/whoxos-runner/devtools
+packages/whoxos-runner/docs
+packages/whoxos-runner/examples
+packages/whoxos-runner/test
+packages/whoxos-runner/test-fixtures
+packages/whoxos-runner/test-support
+packages/whoxos-runner/**/*.md
+packages/whoxos-runner/**/*.spec.ts
+packages/whoxos-runner/**/*.spec.tsx
+packages/whoxos-runner/**/*.test.cjs
+packages/whoxos-runner/**/*.test.cts
+packages/whoxos-runner/**/*.test.js
+packages/whoxos-runner/**/*.test.jsx
+packages/whoxos-runner/**/*.test.mjs
+packages/whoxos-runner/**/*.test.mts
+packages/whoxos-runner/**/*.test.ts
+packages/whoxos-runner/**/*.test.tsx
+packages/whoxos-runner/runner/crates/*/tests
+packages/whoxos-runner/scripts/*-smoke.mjs
+# Exceptions (last match wins): the image build re-runs the runner's
+# generated-file drift checks, so their committed outputs and inputs must
+# survive the slimming above. 2026-09-04: the *.md rule stripped the
+# committed capability contract out of the context and every image build
+# on master failed its drift check — .github/docker-context-checks.Dockerfile
+# now guards this in PR CI.
+!packages/whoxos-runner/generated/**
+!packages/whoxos-runner/docs/capability-contract.md
+# check:runner-workflow-traceability access()es every regression test the
+# stress-traceability spec names — those are src/**/*.test.ts files, so
+# they must survive the *.test.ts rule above.
+!packages/whoxos-runner/src/**/*.test.ts
+!packages/whoxos-runner/src/**/*.test.tsx

@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh WHOXOS service diagnostics metadata
+
+[Timer]
+OnBootSec=20
+OnUnitActiveSec=60
+AccuracySec=10
+RandomizedDelaySec=5
+Unit=overview-labs-it-diagnostics.service
+
+[Install]
+WantedBy=timers.target

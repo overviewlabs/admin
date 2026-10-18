@@ -1,0 +1,14 @@
+{
+  "name": "@whox/adapter-typesafe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TypeSafe Jev structured decision adapter for WHOXOS",
+  "exports": {
+    ".": "./index.mjs",
+    "./ui-parser": "./ui-parser.mjs"
+  },
+  "whoxos": { "adapterUiParser": "1.0.0" },
+  "scripts": { "test": "node --test index.test.mjs" },
+  "engines": { "node": ">=24.11.0" }
+}

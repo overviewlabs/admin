@@ -1,0 +1,23 @@
+[Unit]
+Description=WHOXOS AI Agent Orchestrator
+Requires=whoxos-db.service
+After=whoxos-db.service
+
+[Container]
+Image=whoxos-local
+ContainerName=whoxos
+Pod=whoxos.pod
+Volume=%h/.local/share/whoxos:/whoxos:Z
+Environment=HOST=0.0.0.0
+Environment=WHOXOS_HOME=/whoxos
+Environment=WHOXOS_DEPLOYMENT_MODE=authenticated
+Environment=WHOXOS_DEPLOYMENT_EXPOSURE=private
+Environment=WHOXOS_PUBLIC_URL=http://localhost:3100
+EnvironmentFile=%h/.config/containers/systemd/whoxos.env
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=120
+
+[Install]
+WantedBy=default.target

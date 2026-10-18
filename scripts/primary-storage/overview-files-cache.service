@@ -1,0 +1,11 @@
+[Unit]
+Description=Clear verified Overview Labs file caches and keep recent local SQL backups
+After=overview-file-store.service overview-files-sync.service
+Wants=overview-file-store.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/node /usr/local/libexec/overview-file-store/evict.mjs --apply
+UMask=0077
+Nice=15
+CPUQuota=100%
+MemoryMax=256M

@@ -1,0 +1,18 @@
+import {describe,expect,it,vi} from 'vitest';
+import {createWeatherBridge,dynamicCondition,dynamicForecast,weatherCardConfig,weatherForecastSets} from './dynamic-weather-data';
+describe('upstream weather adapter',()=>{
+ it.each([[0,'sunny'],[2,'partlycloudy'],[3,'cloudy'],[45,'fog'],[51,'rainy'],[55,'rainy'],[61,'rainy'],[65,'pouring'],[67,'rainy'],[71,'snowy'],[86,'snowy'],[95,'lightning-rainy'],[99,'hail']])('maps WMO %s to the native %s scene',(code,expected)=>expect(dynamicCondition({weatherCode:Number(code)})).toBe(expected));
+ it('keeps day/night and unsupported conditions honest',()=>{expect(dynamicCondition({weatherCode:0,isDay:false})).toBe('clear-night');expect(dynamicCondition({weatherCode:999,condition:'sunny'})).toBeNull();expect(dynamicCondition({animationCondition:'dust'})).toBeNull();expect(dynamicCondition({animationCondition:'sleet'})).toBe('snowy-rainy')});
+ it('preserves real forecast dates, nulls and metrics without fabricated entries',()=>{expect(dynamicForecast({city:'City',unit:'°C',forecast:[{day:'Tomorrow',high:20},{day:'2026-10-13',weatherCode:65,high:24,low:15,precipitationProbability:80}]})).toEqual([{datetime:'2026-10-13T12:00:00',temperature:24,templow:15,condition:'pouring',precipitation_probability:80,wind_speed:undefined,wind_bearing:undefined}])});
+ it('uses only the matching valid date for today’s low',()=>{const bridge=createWeatherBridge();const data={city:'City',unit:'°C',observedAt:'2026-10-12T15:00',forecast:[{day:'2026-10-12',low:19},{day:'2026-10-13',low:16}]};expect(bridge.update(data).states['weather.overview'].attributes.templow).toBe(19);expect(bridge.update({...data,observedAt:'2026-10-14T15:00'}).states['weather.overview'].attributes.templow).toBeUndefined()});
+ it('updates existing forecast subscribers without polling and unsubscribes',async()=>{
+  const bridge=createWeatherBridge(),snapshot={city:'City',unit:'°F',weatherCode:61,temperature:null,humidity:0,wind:0,windUnit:'mph',forecast:[{day:'2026-10-13',high:72,low:50}]};
+  const hass=bridge.update(snapshot),callback=vi.fn();const unsubscribe=await hass.connection.subscribeMessage(callback,{forecast_type:'daily'});
+  expect(hass.states['weather.overview'].attributes).toMatchObject({temperature:undefined,humidity:0,wind_speed:0,wind_speed_unit:'mph'});
+  bridge.update({...snapshot,forecast:[{day:'2026-10-14',high:73}]});expect(callback).toHaveBeenLastCalledWith({type:'daily',forecast:[expect.objectContaining({datetime:'2026-10-14T12:00:00',temperature:73})]});
+  unsubscribe();bridge.update(snapshot);expect(callback).toHaveBeenCalledTimes(2);
+ });
+ it('keeps the requested forecast count inside the native card and supports both series',()=>{const weather={city:'City',unit:'°C',card:{variant:'forecast' as const,forecastDays:3,forecastHours:2},forecast:Array.from({length:7},(_,i)=>({day:`2026-10-${12+i}`,high:20+i})),hourlyForecast:Array.from({length:4},(_,i)=>({day:`2026-10-12T${12+i}:00`,temperature:22}))};expect(weatherForecastSets(weather).daily).toHaveLength(3);expect(weatherForecastSets(weather).hourly).toHaveLength(2);expect(weatherCardConfig(weather)).toMatchObject({daily_forecast_days:3,hourly_forecast_hours:2,show_daily_forecast:true,show_hourly_forecast:true,animation_quality:'medium'});expect(weatherCardConfig({...weather,card:{variant:'current'}})).toMatchObject({show_daily_forecast:false,show_hourly_forecast:false})});
+ it('supports custom layout without showing unavailable metrics',()=>expect(weatherCardConfig({city:'City',unit:'°C',card:{variant:'compact',title:'Custom title',visualStyle:'classic'}})).toMatchObject({name:'Custom title',layout:'minimal',visual_style:'classic',show_min_temp:false,show_feels_like:false,show_wind:false,show_humidity:false}));
+
+});

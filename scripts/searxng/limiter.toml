@@ -1,0 +1,2 @@
+# Private loopback service. Request throttling belongs to the authenticated app.
+# Empty overrides retain upstream schema defaults; settings.yml disables limiter.

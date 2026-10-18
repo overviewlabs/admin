@@ -1,0 +1,113 @@
+/* Registered, trusted domain components. All visual values live in index.css.
+   Weather motion uses a visible-only, bounded Canvas scheduler. */
+@layer components {
+  .openui-answer .rich-card {
+    container-type: inline-size;
+    min-width: 0; max-width: 100%; overflow: hidden;
+    border: 0; border-radius: 0; background: transparent;
+    color: var(--foreground); box-shadow: none;
+    font-family: var(--rich-font); line-height: var(--chat-input-line-height);
+  }
+  .openui-answer .rich-card h3 { margin: 0; font-size: var(--rich-heading-size); font-weight: 600; letter-spacing: var(--rich-tracking); overflow-wrap: anywhere; }
+  .openui-answer .rich-card p, .openui-answer .rich-card dl, .openui-answer .rich-card dd { margin: 0; }
+  .rich-heading { display: flex; align-items: start; justify-content: space-between; gap: var(--rich-card-gap); }
+  .rich-heading > div, .rich-music-heading > div { min-width: 0; }
+  .rich-eyebrow { font-size: var(--text-xs); font-weight: 600; color: var(--muted-foreground); margin-bottom: var(--spacing) !important; }
+  .rich-subtitle { color: var(--muted-foreground); font-size: var(--text-sm); overflow-wrap: anywhere; }
+  .rich-source { display: inline-flex; align-items: center; gap: var(--spacing); font-size: var(--text-xs); color: var(--foreground); text-decoration: none; font-weight: 500; }
+  .rich-source svg { width: var(--text-sm); height: var(--text-sm); flex-shrink: 0; }
+  .rich-source:hover, .rich-news h3 a:hover { text-decoration: underline; text-underline-offset: var(--spacing); }
+  .rich-footer { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--spacing) * 2); color: var(--muted-foreground); font-size: var(--text-xs); overflow-wrap: anywhere; }
+  .rich-footer > p { flex-basis: 100%; }
+  .rich-empty { padding: var(--rich-card-pad); font-size: var(--text-sm); color: var(--muted-foreground); }
+  .rich-weather, .rich-stock { padding: 0; display: flex; flex-direction: column; gap: var(--rich-card-gap); }
+  .rich-weather { background: transparent; }
+  .rich-news-grid, .rich-media-grid, .rich-metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--rich-card-min)), 1fr)); gap: var(--rich-card-gap); align-items: start; }
+  .rich-news-grid { grid-template-columns: minmax(0, 1fr); }
+  .openui-answer .rich-news { display: grid; grid-template-columns: minmax(0, var(--rich-media-cover-size)) minmax(0, 1fr); align-items: start; gap: var(--rich-card-gap); }
+  .rich-metric-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--rich-metric-min)), 1fr)); }
+  .rich-news-image, .rich-media-launch, .rich-native-video { position: relative; display: block; width: 100%; aspect-ratio: var(--openui-image-ratio); overflow: hidden; background: var(--muted); }
+  .rich-news-image-frame, .rich-media-poster { width: 100%; height: 100%; display: flex !important; }
+  .rich-news-image-content, .rich-media-poster-image { width: 100%; height: 100%; object-fit: cover; }
+  .rich-news-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(var(--spacing) * 3); color: var(--muted-foreground); font-size: var(--text-sm); background: radial-gradient(ellipse at top left, var(--card), var(--muted)); }
+  .rich-news-placeholder svg { width: var(--rich-media-play-size); height: var(--rich-media-play-size); stroke-width: 1; }
+  .rich-category { position: absolute; top: calc(var(--spacing) * 3); left: calc(var(--spacing) * 3); border-radius: var(--rich-round); padding: var(--spacing) calc(var(--spacing) * 2); font-size: var(--text-xs); background: var(--card); color: var(--foreground); }
+  .rich-news-body, .rich-media-info, .rich-metric { padding: calc(var(--spacing) * 2) 0; display: flex; flex-direction: column; gap: calc(var(--spacing) * 2); }
+  .rich-news-body { padding: 0; }
+  .rich-news-image, .rich-media-launch, .rich-native-video { border-radius: var(--radius-lg); }
+  .rich-news h3 a { color: inherit; text-decoration: none; }
+  .rich-media > .rich-footer { padding: 0 var(--rich-card-pad) calc(var(--spacing) * 4); }
+  .rich-media-launch { border: 0; font-family: var(--rich-font); color: var(--foreground); background: radial-gradient(ellipse at top right, var(--card), var(--muted)); min-height: var(--rich-media-min-height); }
+  .rich-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: var(--rich-media-play-size); height: var(--rich-media-play-size); display: grid; place-items: center; border-radius: var(--rich-round); background: var(--card); color: var(--foreground); box-shadow: var(--rich-shadow); transition: transform var(--motion-duration-fast) var(--motion-ease-standard); }
+  .rich-play svg { width: var(--text-2xl); height: var(--text-2xl); fill: currentColor; }
+  .rich-media-launch:hover .rich-play { transform: translate(-50%, -50%) scale(1.06); }
+  .rich-play-label { position: absolute; bottom: calc(var(--spacing) * 3); left: calc(var(--spacing) * 3); border-radius: var(--radius-md); padding: var(--spacing) calc(var(--spacing) * 2); background: var(--card); color: var(--foreground); font-size: var(--text-xs); }
+  .rich-media-duration { position: absolute; right: calc(var(--spacing) * 3); bottom: calc(var(--spacing) * 3); background: var(--card); color: var(--foreground); padding: var(--spacing); border-radius: var(--radius-sm); font-size: var(--text-xs); }
+  .rich-native-video video { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .rich-embed { position: relative; aspect-ratio: var(--openui-image-ratio); min-height: var(--rich-media-min-height); background: var(--muted); }
+  .rich-embed iframe { position: absolute; inset: 0; border: 0; width: 100%; height: 100%; }
+  .rich-embed-music { aspect-ratio: auto; height: var(--rich-music-frame-height); }
+  .rich-embed-music.rich-embed-compact { min-height: 0; height: var(--rich-music-compact-height); }
+  .rich-player-loading { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; font-size: var(--text-sm); background: var(--card); color: var(--muted-foreground); }
+  .rich-music-heading { display: flex; align-items: center; gap: calc(var(--spacing) * 4); padding: var(--rich-card-pad); }
+  .rich-cover { min-width: 0 !important; min-height: 0 !important; width: var(--rich-media-cover-size); height: var(--rich-media-cover-size); flex-shrink: 0; border-radius: var(--radius-lg); overflow: hidden; }
+  .rich-cover-image { width: 100%; height: 100%; object-fit: cover; }
+  .rich-cover-placeholder { display: grid; place-items: center; color: var(--muted-foreground); background: var(--muted); }
+  .rich-cover-placeholder svg { width: var(--rich-media-cover-icon-size); height: var(--rich-media-cover-icon-size); }
+  .rich-audio-launch { aspect-ratio: auto; min-height: var(--rich-media-cover-size); display: flex; align-items: center; justify-content: start; gap: calc(var(--spacing) * 3); padding: calc(var(--spacing) * 3) var(--rich-card-pad); background: var(--card); }
+  .rich-audio-launch .rich-play { position: static; transform: none; width: var(--openui-touch-target); height: var(--openui-touch-target); background: var(--muted); }
+  .rich-audio-launch:hover .rich-play { transform: none; }
+  .rich-audio-launch .rich-play-label { position: static; padding: 0; font-size: var(--text-sm); }
+  .rich-native-audio { padding: 0 var(--rich-card-pad) calc(var(--spacing) * 4); }
+  .rich-native-audio audio { display: block; width: 100%; color-scheme: inherit; }
+  .rich-media-description { padding: 0 var(--rich-card-pad) calc(var(--spacing) * 3); }
+  .rich-quote strong { display: block; font-size: var(--rich-quote-size); font-weight: 600; letter-spacing: var(--rich-tracking); font-variant-numeric: tabular-nums; }
+  .rich-change { font-size: var(--text-sm); font-weight: 500; }
+  .rich-change[data-direction="up"] { color: var(--status-task-done); }
+  .rich-change[data-direction="down"] { color: var(--destructive); }
+  .rich-stock-plot { width: 100%; min-width: 0; }
+  .rich-stock-plot svg { display: block; width: 100%; max-height: var(--rich-chart-height); overflow: visible; touch-action: pan-y; }
+  .rich-chart-grid { stroke: var(--border); stroke-width: var(--rich-chart-grid-stroke); }
+  .rich-chart-line { fill: none; stroke: var(--foreground); stroke-width: var(--rich-chart-stroke); stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .rich-chart-fill-top { stop-color: var(--foreground); stop-opacity: 0.12; }
+  .rich-chart-fill-bottom { stop-color: var(--foreground); stop-opacity: 0; }
+  .rich-chart-selection line { stroke: var(--muted-foreground); stroke-width: var(--rich-chart-grid-stroke); stroke-dasharray: 4 4; }
+  .rich-chart-selection circle { fill: var(--foreground); stroke: var(--card); stroke-width: var(--rich-chart-stroke); }
+  .rich-chart-dates, .rich-chart-scale { display: flex; justify-content: space-between; gap: calc(var(--spacing) * 4); color: var(--muted-foreground); font-size: var(--text-xs); overflow-wrap: anywhere; }
+  .rich-chart-dates > span { min-width: 0; }
+  .rich-chart-dates > span:last-child { text-align: right; }
+  .rich-chart-ranges { display: flex; flex-wrap: wrap; gap: var(--spacing); }
+  .rich-chart-readout { min-height: var(--text-lg); color: var(--muted-foreground); font-size: var(--text-xs); }
+  .rich-metric strong { font-size: var(--rich-metric-size); font-weight: 500; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .rich-metric-trend { font-size: var(--text-sm); font-weight: 500; }
+  .rich-sparkline { display: block; width: 100%; height: var(--rich-sparkline-height); }
+  @media (prefers-reduced-motion: reduce) {
+    .rich-play { transition: none; }
+  }
+  @media (pointer: coarse) {
+    .rich-source { min-height: var(--openui-touch-target); }
+    .rich-news h3 a { display: inline-block; min-height: var(--openui-touch-target); }
+  }
+}
+@layer components {
+  .rich-weather { width: 100%; max-width: var(--weather-compact-width); gap: var(--weather-compact-gap); }
+}
+/* Unlayered OpenUI fluid-layout defaults must not expand the compact weather view. */
+.openui-answer .rich-weather { width: 100%; max-width: var(--weather-compact-width); }
+.dynamic-weather-host { display: block; width: 100%; min-width: 0; }
+.dynamic-weather-host > dynamic-weather-card { display: block; width: 100%; }
+
+.openui-answer .rich-weather[data-size="compact"] { max-width: var(--weather-card-compact-width); }
+.openui-answer .rich-weather[data-size="full"] { max-width: 100%; }
+.dynamic-weather-host { position: relative; isolation: isolate;  }
+.dynamic-weather-host[data-variant="compact"] { --weather-card-height: 0; }
+
+.openui-answer .rich-weather { max-width: 100%; overflow: visible; }
+.dynamic-weather-host { padding: 0; overflow: visible; margin-bottom: 0; }
+
+/* Keep trusted visual content compact even within OpenUI layout primitives. */
+.openui-answer .rich-news { grid-template-columns: minmax(0, var(--rich-news-thumb-width)) minmax(0, 1fr); align-items: start; }
+.openui-answer :is(.rich-news-body, .rich-media-info, .rich-metric) { gap: calc(var(--spacing) * 2); justify-content: flex-start; }
+.openui-answer :is(.rich-news-body, .rich-media-info, .rich-metric) > * { margin: 0; }
+.openui-answer .rich-card h3 { margin: 0; line-height: var(--leading-snug); }
+.openui-answer .rich-card p { margin: 0; }

@@ -1,0 +1,14 @@
+import {spawnSync} from 'node:child_process';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {resolve,dirname} from 'node:path';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const result=spawnSync('pnpm',['dlx','@openuidev/cli@0.5.2','generate','src/components/generative-ui/library.tsx','--export','library','--prompt-options','promptOptions','--out','src/components/generative-ui/generated-prompt.txt','--no-interactive'],{cwd:resolve(root,'ui'),stdio:'inherit',env:{...process.env,DO_NOT_TRACK:'1'}});
+if(result.status!==0)process.exit(result.status??1);
+const prompt=readFileSync(resolve(root,'ui/src/components/generative-ui/generated-prompt.txt'),'utf8');
+writeFileSync(resolve(root,'packages/shared/src/interactive-answer-prompt.ts'),'/** Generated from the OpenUI component library; run scripts/generate-openui-prompt.mjs. */\nexport const INTERACTIVE_ANSWER_INSTRUCTIONS = '+JSON.stringify(prompt)+';\n');
+const board=resolve(root,'skills/whoxos-board/SKILL.md'),body=readFileSync(board,'utf8'),index=body.indexOf('## Interactive answers in Overview Labs');
+if(index<0)throw Error('Board presentation contract marker missing');
+writeFileSync(board,body.slice(0,index)+prompt+'\n');
+if(process.env.CPTR_SOURCE_ROOT)writeFileSync(resolve(process.env.CPTR_SOURCE_ROOT,'utils/generative_ui.py'),'# Generated from the same OpenUI library as the browser renderer.\nINTERACTIVE_ANSWER_INSTRUCTIONS = '+JSON.stringify(prompt)+'\n');
+console.log('Synchronized OpenUI component and prompt artifacts.');

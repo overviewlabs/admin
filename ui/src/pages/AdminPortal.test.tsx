@@ -1,0 +1,21 @@
+// @vitest-environment jsdom
+import { act } from 'react';
+import { createRoot } from 'react-dom/client';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { AdminPortal } from './AdminPortal';
+const state=vi.hoisted(()=>({loading:false,selectedCompanyId:'treasury' as string|null,prefix:'OVE' as string|undefined,allowed:true}));
+vi.mock('../context/CompanyContext',()=>({useCompany:()=>({loading:state.loading,selectedCompanyId:state.selectedCompanyId,companies:[{id:'treasury',issuePrefix:'TASK'}]})}));
+vi.mock('../context/BreadcrumbContext',()=>({useBreadcrumbs:()=>({setBreadcrumbs:()=>{}})}));
+vi.mock('../hooks/useAdminPortalAccess',()=>({useAdminPortalAccess:()=>({access:{isError:false,data:{allowed:state.allowed},refetch:()=>{}}})}));
+vi.mock('../lib/router',()=>({useParams:()=>({companyPrefix:state.prefix}),useLocation:()=>({search:''}),useNavigate:()=>()=>{},Navigate:()=>null}));
+vi.mock('./ServerMonitor',()=>({ServerMonitor:()=>null}));
+vi.mock('../components/admin/AdminDashboard',()=>({AdminDashboard:()=><div>ADMIN_DASHBOARD</div>,AdminChatList:()=>null,CreateAdminWorkspace:()=>null}));
+(globalThis as any).IS_REACT_ACT_ENVIRONMENT=true;
+let host:HTMLDivElement;let root:ReturnType<typeof createRoot>;
+beforeEach(()=>{state.loading=false;state.selectedCompanyId='treasury';state.prefix='TASK';state.allowed=true;host=document.createElement('div');document.body.append(host);root=createRoot(host);});
+afterEach(async()=>{await act(async()=>root.unmount());host.remove();});
+const render=()=>act(async()=>root.render(<AdminPortal/>));
+it('loads Admin from a remaining organization after WHOXOS was deleted',async()=>{await render();expect(host.textContent).toContain('ADMIN_DASHBOARD');});
+it('does not depend on an organization list or selected organization',async()=>{state.loading=true;state.selectedCompanyId=null;state.prefix=undefined;await render();expect(host.textContent).toContain('ADMIN_DASHBOARD');});
+it('retains administrator authorization checks on the explicit Admin route',async()=>{state.allowed=false;await render();expect(host.textContent).not.toContain('ADMIN_DASHBOARD');expect(host.textContent).toContain('server administrators');});
+it('allows a remaining organization route with a stale deleted organization selection',async()=>{state.prefix='TASK';state.selectedCompanyId='79255634-54f2-4a25-b72f-19f2808ad251';await render();expect(host.textContent).toContain('ADMIN_DASHBOARD');});
