@@ -17,3 +17,8 @@ application databases. No credentials, organization registry, recovery key, sock
 user database, or existing systemd environment file is included. The storage cleanup
 reference uses 04:00 America/New_York; it must be configured for the volumes and
 services on its destination host before enabling it.
+
+The `systemd/overview-storage-cleanup.*` examples preserve the daily 4:00 a.m.
+Eastern schedule (including daylight saving changes). Copy them into systemd only
+after installing the referenced helpers and configuring destination-host storage;
+the template does not enable them automatically.

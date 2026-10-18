@@ -1,0 +1,13 @@
+[Unit]
+Description=Verified Backblaze release offload and daily storage cleanup
+Wants=network-online.target
+After=network-online.target docker.service overview-file-store.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/libexec/overview-storage-cleanup/run.py
+UMask=0077
+Nice=15
+IOSchedulingClass=idle
+TimeoutStartSec=5h
+MemoryMax=2G
+CPUQuota=100%
